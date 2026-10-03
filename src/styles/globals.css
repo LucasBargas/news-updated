@@ -1,0 +1,62 @@
+@import "./variables.css";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 414px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 300px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+body {
+  background: var(--background-color);
+  font-family: var(--font-family);
+  color: var(--text-color);
+  min-height: calc(100vh + 2rem);
+}
+
+input,
+textarea,
+button {
+  font-size: 1rem;
+  outline: none;
+  border: none;
+}
+
+button {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+svg {
+  display: block;
+}
+
+.app-area {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh + 2rem);
+
+  main {
+    flex: 1;
+  }
+}
