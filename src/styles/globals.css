@@ -1,9 +1,11 @@
 @import "./variables.css";
 
-* {
-  padding: 0;
-  margin: 0;
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 @media (max-width: 414px) {
@@ -55,8 +57,13 @@ svg {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh + 2rem);
+}
 
-  main {
-    flex: 1;
-  }
+.app-area > main {
+  flex: 1;
+}
+
+.container {
+  width: min(100% - 2rem, 1160px);
+  margin-inline: auto;
 }

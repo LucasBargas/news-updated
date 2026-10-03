@@ -1,3 +1,4 @@
+import { Header } from "@/src/layouts/header";
 import type { Metadata } from "next";
 import "../styles/globals.css";
 
@@ -11,6 +12,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="pt-br">
       <body>
         <div className="app-area">
+          <Header />
           <main>{children}</main>
         </div>
       </body>
