@@ -21,15 +21,7 @@
   gap: 3rem;
 }
 
-.headerMobileBtn {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .headerMobileBtn {
-    display: block;
-  }
-
+@media (max-width: 820px) {
   .headerRight {
     position: absolute;
     top: 100%;
@@ -56,5 +48,15 @@
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 414px) {
+  .header {
+    height: 4rem;
+  }
+
+  .headerRight.active {
+    height: calc(100vh - 4rem);
   }
 }
