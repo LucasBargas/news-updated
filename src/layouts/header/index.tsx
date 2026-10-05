@@ -4,14 +4,16 @@ import { HeaderLogo } from "@/src/layouts/header/header-logo";
 import { HeaderNav } from "@/src/layouts/header/header-nav";
 import { HeaderSearch } from "@/src/layouts/header/header-search";
 import React from "react";
+import { HeaderMobileButton } from "./header-mobile-button";
 import styles from "./styles.module.css";
 
 export const Header = () => {
   const [active, setActive] = React.useState(false);
-  // const isMobileNav = useMedia("(max-width: 768px)");
+  const [value, setValue] = React.useState("");
 
   const handleClick = () => {
-    setActive((prev) => !prev);
+    setActive(false);
+    if (value.length) setValue("");
   };
 
   return (
@@ -21,12 +23,14 @@ export const Header = () => {
 
         <div className={`${styles.headerRight} ${active ? styles.active : ""}`}>
           <HeaderNav handleClick={handleClick} />
-          <HeaderSearch />
+          <HeaderSearch
+            value={value}
+            setValue={setValue}
+            handleClick={handleClick}
+          />
         </div>
 
-        <button className={styles.headerMobileBtn} onClick={handleClick}>
-          Menu
-        </button>
+        <HeaderMobileButton active={active} setActive={setActive} />
       </div>
     </header>
   );
