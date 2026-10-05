@@ -3,10 +3,10 @@ import { usePathname } from "next/navigation";
 import styles from "./styles.module.css";
 
 interface HeaderNavProps {
-  setActive: React.Dispatch<React.SetStateAction<boolean>>;
+  handleClick: () => void;
 }
 
-export const HeaderNav = ({ setActive }: HeaderNavProps) => {
+export const HeaderNav = ({ handleClick }: HeaderNavProps) => {
   const pathname = usePathname();
 
   return (
@@ -15,7 +15,7 @@ export const HeaderNav = ({ setActive }: HeaderNavProps) => {
         <li>
           <Link
             href="/"
-            onClick={() => setActive(false)}
+            onClick={handleClick}
             className={pathname === "/" ? styles.active : ""}
           >
             Home
@@ -24,7 +24,7 @@ export const HeaderNav = ({ setActive }: HeaderNavProps) => {
         <li>
           <Link
             href="/noticias-favoritas"
-            onClick={() => setActive(false)}
+            onClick={handleClick}
             className={pathname === "/noticias-favoritas" ? styles.active : ""}
           >
             Notícias favoritas
@@ -33,7 +33,7 @@ export const HeaderNav = ({ setActive }: HeaderNavProps) => {
         <li>
           <Link
             href="/cadastrar-noticia"
-            onClick={() => setActive(false)}
+            onClick={handleClick}
             className={pathname === "/cadastrar-noticia" ? styles.active : ""}
           >
             Cadastrar notícia
