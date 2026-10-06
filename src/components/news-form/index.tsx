@@ -1,6 +1,8 @@
 "use client";
 
+import { INews } from "@/src/actions/get-news-list";
 import postNews from "@/src/actions/post-news";
+import { updateNews } from "@/src/actions/update-news";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,18 +13,12 @@ import { newsFormSchema, type NewsFormData } from "../../helpers/zod";
 import styles from "./styles.module.css";
 
 interface NewsProps {
-  id?: string;
+  singleData?: INews;
 }
 
-export const NewsForm = (props: NewsProps) => {
+export const NewsForm = ({ singleData }: NewsProps) => {
+  const [isFavorite, setIsFavorite] = React.useState(false);
   const router = useRouter();
-
-  const singleData = {
-    title: "",
-    content: "",
-    category: "",
-    author: "",
-  };
 
   const {
     register,
@@ -31,23 +27,36 @@ export const NewsForm = (props: NewsProps) => {
   } = useForm<NewsFormData>({
     resolver: zodResolver(newsFormSchema),
     defaultValues: {
-      title: singleData.title ?? "",
-      content: singleData.content ?? "",
-      category: singleData.category ?? "",
-      author: singleData.author ?? "",
+      title: singleData?.title ?? "",
+      content: singleData?.content ?? "",
+      category: singleData?.category ?? "",
+      author: singleData?.author ?? "",
     },
   });
 
   const onSubmit = async (data: NewsFormData) => {
-    const news = await postNews(data);
-    router.push(`noticia/${news.id}`);
+    let news: INews | null = null;
+
+    if (singleData && singleData.id) {
+      news = await updateNews(singleData.id, data);
+    } else {
+      news = await postNews(data);
+    }
+
+    if (news && news.id) {
+      router.push(`/noticia/${news.id}`);
+    } else {
+      console.error(
+        "Erro ao salvar a notícia. Nenhuma informação retornou da API.",
+      );
+    }
   };
 
   return (
     <React.Fragment>
       <div className={styles.formsHeader}>
         <span></span>
-        <h1>{props.id ? "Atualize a notícia" : "Cadastre uma notícia"}</h1>
+        <h1>{singleData ? "Atualize a notícia" : "Cadastre uma notícia"}</h1>
         <p>Após o cadastro, a notícia estará disponível para todos.</p>
       </div>
 
@@ -108,7 +117,7 @@ export const NewsForm = (props: NewsProps) => {
 
         <div className={styles.formsAreaButton}>
           <button type="submit">
-            <span>{props.id ? "Atualizar" : "Cadastrar"}</span>
+            <span>{singleData ? "Atualizar" : "Cadastrar"}</span>
             <FontAwesomeIcon icon={faArrowRightLong} />
           </button>
         </div>

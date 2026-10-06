@@ -1,4 +1,4 @@
-import getNews, { INews } from "@/src/actions/get-news";
+import getNewsList, { INews } from "@/src/actions/get-news-list";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
@@ -53,7 +53,7 @@ export const HeaderSearch = (props: HeaderSearchProps) => {
       setIsOpen(true);
 
       try {
-        const data = await getNews(props.value);
+        const data = await getNewsList(props.value);
         setNews(data);
       } catch (error) {
         console.error("Erro ao buscar:", error);

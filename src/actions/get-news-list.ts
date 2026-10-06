@@ -10,7 +10,7 @@ export interface INews {
   isFavorite?: boolean;
 }
 
-const getNews = async (searchTerm?: string) => {
+const getNewsList = async (searchTerm?: string) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -52,8 +52,8 @@ const getNews = async (searchTerm?: string) => {
     return data;
   } catch (error) {
     console.error("Erro na requisição getNews:", error);
-    return [];
+    return null;
   }
 };
 
-export default getNews;
+export default getNewsList;

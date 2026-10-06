@@ -1,6 +1,6 @@
 "use server";
 
-import { INews } from "./get-news";
+import { INews } from "./get-news-list";
 
 const postNews = async (newsData: INews) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
