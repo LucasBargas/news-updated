@@ -53,7 +53,7 @@ svg {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh + 2rem);
-  padding-top: 6rem;
+  padding-top: 8rem;
 }
 
 .app-area > main {
@@ -71,7 +71,7 @@ svg {
   }
 
   .app-area {
-    padding-top: 4rem;
+    padding-top: 6rem;
   }
 }
 
