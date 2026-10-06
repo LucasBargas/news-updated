@@ -12,7 +12,6 @@ const getNewsId = async (id: number | string) => {
     );
   }
 
-  // Usamos o parâmetro id=eq.${id} para filtrar exatamente o ID desejado
   const endpoint = `${supabaseUrl}/rest/v1/news?select=*&id=eq.${id}`;
 
   try {
