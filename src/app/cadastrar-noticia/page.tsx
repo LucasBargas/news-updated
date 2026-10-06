@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 const RegisterPage = () => {
   return (
     <section className={`container ${styles.registerArea}`}>
-      <NewsForm />
+      <NewsForm id="123" />
     </section>
   );
 };

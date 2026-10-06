@@ -18,22 +18,51 @@
     font-size: 0.875rem;
     margin-top: 0.75rem;
     letter-spacing: 0.025rem;
+    word-spacing: 0.015rem;
   }
 }
 
 .formsArea {
-  padding: 2rem 2.5rem 0 2.5rem;
+  padding: 2rem 2.5rem 2.5rem 2.5rem;
+
+  label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05rem;
+
+    &:not(:first-of-type) {
+      margin-top: 1.25rem;
+    }
+  }
 
   input,
   textarea {
     display: block;
     width: 100%;
-    border: 1px solid #000;
-    margin-bottom: 1.5rem;
+    border: 1px solid var(--background-color);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    font-family: var(--font-family);
+    resize: none;
+
+    &::placeholder {
+      font-family: var(--font-family);
+      font-size: 0.875rem;
+    }
   }
 
-  input:last-of-type {
-    margin-bottom: 1.75rem;
+  input {
+    height: 2.75rem;
+  }
+
+  .formsAreaError {
+    display: block;
+    font-size: 0.875rem;
+    color: tomato;
+    margin-top: 0.25rem;
   }
 }
 
@@ -47,6 +76,8 @@
   padding: 1.125rem 2.5rem;
 
   button {
+    display: flex;
+    align-items: center;
     background: #3a3535;
     color: var(--light-color);
     font-size: 0.75rem;

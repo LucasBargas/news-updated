@@ -2,40 +2,109 @@
 
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { newsFormSchema, type NewsFormData } from "../../helpers/zod";
 import styles from "./styles.module.css";
 
-export const NewsForm = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+interface NewsProps {
+  id?: string;
+}
+
+export const NewsForm = (props: NewsProps) => {
+  const data = {
+    title: "",
+    content: "",
+    category: "",
+    author: "",
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NewsFormData>({
+    resolver: zodResolver(newsFormSchema),
+    defaultValues: {
+      title: data.title ?? "",
+      content: data.content ?? "",
+      category: data.category ?? "",
+      author: data.author ?? "",
+    },
+  });
+
+  const onSubmit = (data: NewsFormData) => {
+    console.log("Dados validados com sucesso:", data);
+    // Aqui você faria a chamada para a sua API
   };
 
   return (
     <React.Fragment>
       <div className={styles.formsHeader}>
         <span></span>
-        <h1>Cadastre uma notícia</h1>
-        <p>
-          Após o cadastro, a notícia estará disponível para outras pessoas
-          verem.
-        </p>
+        <h1>{props.id ? "Atualize a notícia" : "Cadastre uma notícia"}</h1>
+        <p>Após o cadastro, a notícia estará disponível para todos.</p>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formsArea}>
           <label htmlFor="title">Título:</label>
-          <input type="text" name="title" id="title" />
+          <input
+            type="text"
+            id="title"
+            placeholder="Defina o título da notícia"
+            {...register("title")}
+          />
+          {errors.title && (
+            <span className={styles.formsAreaError}>
+              {errors.title.message}
+            </span>
+          )}
+
           <label htmlFor="content">Conteúdo:</label>
-          <textarea name="content" id="content"></textarea>
+          <textarea
+            id="content"
+            placeholder="Defina o texto da notícia"
+            rows={4}
+            {...register("content")}
+          ></textarea>
+          {errors.content && (
+            <span className={styles.formsAreaError}>
+              {errors.content.message}
+            </span>
+          )}
+
           <label htmlFor="category">Categoria:</label>
-          <input type="text" name="category" id="category" />
+          <input
+            type="text"
+            id="category"
+            placeholder="Digite uma categoria ou escolha uma das existentes"
+            {...register("category")}
+          />
+          {errors.category && (
+            <span className={styles.formsAreaError}>
+              {errors.category.message}
+            </span>
+          )}
+
           <label htmlFor="author">Autor:</label>
-          <input type="text" name="author" id="author" />
+          <input
+            type="text"
+            id="author"
+            placeholder="Defina o autor da notícia"
+            {...register("author")}
+          />
+          {errors.author && (
+            <span className={styles.formsAreaError}>
+              {errors.author.message}
+            </span>
+          )}
         </div>
 
         <div className={styles.formsAreaButton}>
           <button type="submit">
-            <span>Cadastrar</span>
+            <span>{props.id ? "Atualizar" : "Cadastrar"}</span>
             <FontAwesomeIcon icon={faArrowRightLong} />
           </button>
         </div>
