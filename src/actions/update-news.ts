@@ -32,7 +32,7 @@ const updateNews = async (id: number | string, updatedData: INews) => {
 
     const data = (await res.json()) as INews[];
 
-    return data[0];
+    return data[0] as INews;
   } catch (error) {
     console.error(`Erro na requisição updateNews para o id ${id}:`, error);
     return null;

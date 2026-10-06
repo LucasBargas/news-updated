@@ -1,6 +1,6 @@
 "use server";
 
-import { INews } from "./get-news-list";
+import { INews } from "../types/news";
 
 const getNewsId = async (id: number | string) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -31,7 +31,6 @@ const getNewsId = async (id: number | string) => {
 
     const data = (await res.json()) as INews[];
 
-    // Retorna o primeiro item encontrado ou null caso não exista nenhuma notícia com esse ID
     return data[0];
   } catch (error) {
     console.error(`Erro na requisição getNewsById para o id ${id}:`, error);
