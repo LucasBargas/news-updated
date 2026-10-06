@@ -1,14 +1,6 @@
 "use server";
 
-export interface INews {
-  id?: number;
-  created_at?: string;
-  title: string;
-  content: string;
-  category: string;
-  author: string;
-  isFavorite?: boolean;
-}
+import { INews } from "../types/news";
 
 const getNewsList = async (searchTerm?: string) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

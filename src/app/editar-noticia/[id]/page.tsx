@@ -1,6 +1,5 @@
 import getNewsId from "@/src/actions/get-news-id";
 import { NewsForm } from "@/src/components/news-form";
-import styles from "./styles.module.css";
 
 interface IPageParams {
   params: Promise<{
@@ -15,7 +14,7 @@ const EditNewsPage = async ({ params }: IPageParams) => {
   if (!data) return null;
 
   return (
-    <section className={`container ${styles.editArea}`}>
+    <section className="container">
       <NewsForm singleData={data} />
     </section>
   );

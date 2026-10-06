@@ -1,4 +1,4 @@
-import { INews } from "@/src/actions/get-news-list";
+import { INews } from "@/src/types/news";
 import Link from "next/link";
 import styles from "./styles.module.css";
 

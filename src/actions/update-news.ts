@@ -1,8 +1,8 @@
 "use server";
 
-import { INews } from "./get-news-list";
+import { INews } from "../types/news";
 
-export const updateNews = async (id: number | string, updatedData: INews) => {
+const updateNews = async (id: number | string, updatedData: INews) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -38,3 +38,5 @@ export const updateNews = async (id: number | string, updatedData: INews) => {
     return null;
   }
 };
+
+export default updateNews;

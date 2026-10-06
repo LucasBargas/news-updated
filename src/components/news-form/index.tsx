@@ -1,8 +1,8 @@
 "use client";
 
-import { INews } from "@/src/actions/get-news-list";
 import postNews from "@/src/actions/post-news";
-import { updateNews } from "@/src/actions/update-news";
+import updateNews from "@/src/actions/update-news";
+import { INews } from "@/src/types/news";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,14 +10,11 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { newsFormSchema, type NewsFormData } from "../../helpers/zod";
+import { FormsFavorite } from "./forms-favorite";
 import styles from "./styles.module.css";
 
-interface NewsProps {
-  singleData?: INews;
-}
-
-export const NewsForm = ({ singleData }: NewsProps) => {
-  const [isFavorite, setIsFavorite] = React.useState(false);
+export const NewsForm = ({ singleData }: { singleData?: INews }) => {
+  const [isFavorite, setIsFavorite] = React.useState(singleData?.isFavorite);
   const router = useRouter();
 
   const {
@@ -38,7 +35,10 @@ export const NewsForm = ({ singleData }: NewsProps) => {
     let news: INews | null = null;
 
     if (singleData && singleData.id) {
-      news = await updateNews(singleData.id, data);
+      news = await updateNews(singleData.id, {
+        ...data,
+        isFavorite,
+      });
     } else {
       news = await postNews(data);
     }
@@ -53,11 +53,17 @@ export const NewsForm = ({ singleData }: NewsProps) => {
   };
 
   return (
-    <React.Fragment>
+    <div className={styles.fromWrapper}>
       <div className={styles.formsHeader}>
         <span></span>
         <h1>{singleData ? "Atualize a notícia" : "Cadastre uma notícia"}</h1>
         <p>Após o cadastro, a notícia estará disponível para todos.</p>
+        {singleData && (
+          <FormsFavorite
+            isFavorite={isFavorite!}
+            setIsFavorite={setIsFavorite}
+          />
+        )}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -122,6 +128,6 @@ export const NewsForm = ({ singleData }: NewsProps) => {
           </button>
         </div>
       </form>
-    </React.Fragment>
+    </div>
   );
 };

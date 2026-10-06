@@ -1,4 +1,5 @@
-import getNewsList, { INews } from "@/src/actions/get-news-list";
+import getNewsList from "@/src/actions/get-news-list";
+import { INews } from "@/src/types/news";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
