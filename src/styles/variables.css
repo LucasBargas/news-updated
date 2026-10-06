@@ -1,7 +1,9 @@
 :root {
+  --light-color: #fafafa;
   --primary-color: #949494;
   --secondary-color: #c0c0c0;
   --background-color: #dcdcdc;
   --text-color: #222222;
+  --shadow: -2px 1px 23px -1px rgba(34, 34, 34, 0.37);
   --font-family: "Helvetica", sans-serif;
 }
