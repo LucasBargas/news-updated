@@ -1,13 +1,13 @@
 "use server";
 
 export interface INews {
-  id: number;
-  created_at: string;
+  id?: number;
+  created_at?: string;
   title: string;
   content: string;
   category: string;
   author: string;
-  isFavorite: boolean;
+  isFavorite?: boolean;
 }
 
 const getNews = async (searchTerm?: string) => {

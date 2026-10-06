@@ -1,13 +1,8 @@
 "use server";
 
-export interface INewsInput {
-  title: string;
-  content: string;
-  category: string;
-  author: string;
-}
+import { INews } from "./get-news";
 
-const postNews = async (newsData: INewsInput) => {
+const postNews = async (newsData: INews) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -39,7 +34,10 @@ const postNews = async (newsData: INewsInput) => {
 
     const data = await res.json();
 
-    return data[0];
+    return {
+      body: data[0] as INews,
+      ok: res.ok,
+    };
   } catch (error) {
     console.error("Erro na requisição postNews:", error);
     throw error;

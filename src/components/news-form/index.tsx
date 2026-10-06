@@ -1,8 +1,10 @@
 "use client";
 
+import postNews from "@/src/actions/post-news";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { newsFormSchema, type NewsFormData } from "../../helpers/zod";
@@ -13,7 +15,9 @@ interface NewsProps {
 }
 
 export const NewsForm = (props: NewsProps) => {
-  const data = {
+  const router = useRouter();
+
+  const singleData = {
     title: "",
     content: "",
     category: "",
@@ -27,16 +31,19 @@ export const NewsForm = (props: NewsProps) => {
   } = useForm<NewsFormData>({
     resolver: zodResolver(newsFormSchema),
     defaultValues: {
-      title: data.title ?? "",
-      content: data.content ?? "",
-      category: data.category ?? "",
-      author: data.author ?? "",
+      title: singleData.title ?? "",
+      content: singleData.content ?? "",
+      category: singleData.category ?? "",
+      author: singleData.author ?? "",
     },
   });
 
-  const onSubmit = (data: NewsFormData) => {
-    console.log("Dados validados com sucesso:", data);
-    // Aqui você faria a chamada para a sua API
+  const onSubmit = async (data: NewsFormData) => {
+    const news = await postNews(data);
+
+    if (news.ok) {
+      router.push(`noticia/${news.body.id}`);
+    }
   };
 
   return (
