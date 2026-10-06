@@ -34,10 +34,7 @@ const postNews = async (newsData: INews) => {
 
     const data = await res.json();
 
-    return {
-      body: data[0] as INews,
-      ok: res.ok,
-    };
+    return data[0] as INews;
   } catch (error) {
     console.error("Erro na requisição postNews:", error);
     throw error;

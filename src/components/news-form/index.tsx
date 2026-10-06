@@ -40,10 +40,7 @@ export const NewsForm = (props: NewsProps) => {
 
   const onSubmit = async (data: NewsFormData) => {
     const news = await postNews(data);
-
-    if (news.ok) {
-      router.push(`noticia/${news.body.id}`);
-    }
+    router.push(`noticia/${news.id}`);
   };
 
   return (
