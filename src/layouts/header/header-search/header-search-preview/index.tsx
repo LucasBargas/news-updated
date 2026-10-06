@@ -9,21 +9,16 @@ interface HeaderSearchPreviewProps {
   handleClick: () => void;
 }
 
-export const HeaderSearchPreview = ({
-  news,
-  isLoading,
-  value,
-  handleClick,
-}: HeaderSearchPreviewProps) => {
+export const HeaderSearchPreview = (props: HeaderSearchPreviewProps) => {
   const renderContent = () => {
-    if (isLoading) {
+    if (props.isLoading) {
       return <li className={styles.noPreview}>Carregando...</li>;
     }
 
-    if (news && news.length > 0) {
-      return news.map((el) => (
+    if (props.news && props.news.length > 0) {
+      return props.news.map((el) => (
         <li key={el.id}>
-          <Link href={`/noticia/${el.id}`} onClick={handleClick}>
+          <Link href={`/noticia/${el.id}`} onClick={props.handleClick}>
             {el.title}
           </Link>
         </li>
@@ -32,7 +27,7 @@ export const HeaderSearchPreview = ({
 
     return (
       <li className={styles.noPreview}>
-        Nenhuma notícia encontrada com: {value}
+        Nenhuma notícia encontrada com: {props.value}
       </li>
     );
   };
