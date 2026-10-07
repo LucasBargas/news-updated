@@ -2,7 +2,7 @@
 
 import { INews } from "../types/news";
 
-const getNewsId = async (id: number | string) => {
+const getNewsId = async (id: number | string): Promise<INews | null> => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -17,6 +17,7 @@ const getNewsId = async (id: number | string) => {
   try {
     const res = await fetch(endpoint, {
       method: "GET",
+      cache: "no-store",
       headers: {
         apikey: supabaseKey,
         Authorization: `Bearer ${supabaseKey}`,
@@ -29,10 +30,9 @@ const getNewsId = async (id: number | string) => {
     }
 
     const data = (await res.json()) as INews[];
-
     return data[0];
   } catch (error) {
-    console.error(`Erro na requisição getNewsById para o id ${id}:`, error);
+    console.error(`Erro na requisição getNewsId para o id ${id}:`, error);
     return null;
   }
 };

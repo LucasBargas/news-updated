@@ -34,7 +34,7 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
   const onSubmit = async (data: NewsFormData) => {
     let news: INews | null = null;
 
-    if (singleData && singleData.id) {
+    if (singleData?.id) {
       news = await updateNews(singleData.id, {
         ...data,
         isFavorite,
@@ -43,7 +43,7 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
       news = await postNews(data);
     }
 
-    if (news && news.id) {
+    if (news?.id) {
       router.push(`/noticia/${news.id}`);
     } else {
       console.error(
@@ -58,9 +58,10 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
         <span></span>
         <h1>{singleData ? "Atualize a notícia" : "Cadastre uma notícia"}</h1>
         <p>Após o cadastro, a notícia estará disponível para todos.</p>
+
         {singleData && (
           <FormsFavorite
-            isFavorite={isFavorite!}
+            isFavorite={isFavorite}
             setIsFavorite={setIsFavorite}
           />
         )}
@@ -87,7 +88,7 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
             placeholder="Defina o texto da notícia"
             rows={4}
             {...register("content")}
-          ></textarea>
+          />
           {errors.content && (
             <span className={styles.formsAreaError}>
               {errors.content.message}

@@ -1,8 +1,12 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { INews } from "../types/news";
 
-const updateNews = async (id: number | string, updatedData: INews) => {
+const updateNews = async (
+  id: number | string,
+  updatedData: INews,
+): Promise<INews | null> => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -17,6 +21,7 @@ const updateNews = async (id: number | string, updatedData: INews) => {
   try {
     const res = await fetch(endpoint, {
       method: "PATCH",
+      cache: "no-store",
       headers: {
         apikey: supabaseKey,
         Authorization: `Bearer ${supabaseKey}`,
@@ -31,8 +36,16 @@ const updateNews = async (id: number | string, updatedData: INews) => {
     }
 
     const data = (await res.json()) as INews[];
+    const updatedNews = data[0];
 
-    return data[0] as INews;
+    if (!updatedNews) {
+      return null;
+    }
+
+    revalidatePath(`/noticia/${id}`);
+    revalidatePath(`/editar-noticia/${id}`);
+
+    return updatedNews;
   } catch (error) {
     console.error(`Erro na requisição updateNews para o id ${id}:`, error);
     return null;

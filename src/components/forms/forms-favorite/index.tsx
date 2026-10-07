@@ -1,13 +1,10 @@
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./styles.module.css";
-// Importando o coração preenchido (preto/sólido) e renomeando
-import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
-
-// Importando o coração vazado (claro/regular) e renomeando
-import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 
 interface FormsFavoriteProps {
-  isFavorite: boolean;
+  isFavorite: boolean | undefined;
   setIsFavorite: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
