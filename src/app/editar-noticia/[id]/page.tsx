@@ -1,5 +1,5 @@
 import getNewsId from "@/src/actions/get-news-id";
-import { NewsForm } from "@/src/components/news-form";
+import { Forms } from "@/src/components/forms";
 
 interface IPageParams {
   params: Promise<{
@@ -15,7 +15,7 @@ const EditNewsPage = async ({ params }: IPageParams) => {
 
   return (
     <section className="container">
-      <NewsForm singleData={data} />
+      <Forms singleData={data} />
     </section>
   );
 };

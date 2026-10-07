@@ -1,9 +1,9 @@
-import { NewsForm } from "@/src/components/news-form";
+import { Forms } from "@/src/components/forms";
 
 const RegisterPage = () => {
   return (
     <section className="container">
-      <NewsForm />
+      <Forms />
     </section>
   );
 };

@@ -1,5 +1,20 @@
-const Home = () => {
-  return <div>Home 2</div>;
+import getNewsList from "../actions/get-news-list";
+
+const Home = async () => {
+  const data = await getNewsList("", "random", false);
+
+  if (!data) return null;
+
+  return (
+    <div className="container">
+      {data.map((el) => (
+        <li key={el.id}>
+          <h3>{el.title}</h3>
+          <p>{el.content}</p>
+        </li>
+      ))}
+    </div>
+  );
 };
 
 export default Home;

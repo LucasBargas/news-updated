@@ -13,7 +13,7 @@ import { newsFormSchema, type NewsFormData } from "../../helpers/zod";
 import { FormsFavorite } from "./forms-favorite";
 import styles from "./styles.module.css";
 
-export const NewsForm = ({ singleData }: { singleData?: INews }) => {
+export const Forms = ({ singleData }: { singleData?: INews }) => {
   const [isFavorite, setIsFavorite] = React.useState(singleData?.isFavorite);
   const router = useRouter();
 

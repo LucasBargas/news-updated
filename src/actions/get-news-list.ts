@@ -2,7 +2,13 @@
 
 import { INews } from "../types/news";
 
-const getNewsList = async (searchTerm?: string) => {
+export type OrderOption = "recent" | "oldest" | "random";
+
+const getNewsList = async (
+  searchTerm?: string,
+  orderBy: OrderOption = "random",
+  favoritesOnly: boolean = false,
+) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -13,6 +19,11 @@ const getNewsList = async (searchTerm?: string) => {
   }
 
   let endpoint = `${supabaseUrl}/rest/v1/news?select=*`;
+
+  if (favoritesOnly) {
+    endpoint += "&isFavorite=eq.true";
+  }
+
   if (searchTerm) {
     const trimmedTerm = searchTerm.trim();
 
@@ -26,9 +37,16 @@ const getNewsList = async (searchTerm?: string) => {
     endpoint += `&or=(${conditions})`;
   }
 
+  if (orderBy === "recent") {
+    endpoint += "&order=created_at.desc";
+  } else if (orderBy === "oldest") {
+    endpoint += "&order=created_at.asc";
+  }
+
   try {
     const res = await fetch(endpoint, {
       method: "GET",
+      cache: "no-store",
       headers: {
         apikey: supabaseKey,
         Authorization: `Bearer ${supabaseKey}`,
@@ -40,10 +58,15 @@ const getNewsList = async (searchTerm?: string) => {
       throw new Error(`Erro ao buscar notícias: ${res.statusText}`);
     }
 
-    const data = (await res.json()) as INews[];
+    let data = (await res.json()) as INews[];
+
+    if (orderBy === "random") {
+      data = data.sort(() => Math.random() - 0.5);
+    }
+
     return data;
   } catch (error) {
-    console.error("Erro na requisição getNews:", error);
+    console.error("Erro na requisição getNewsList:", error);
     return null;
   }
 };
