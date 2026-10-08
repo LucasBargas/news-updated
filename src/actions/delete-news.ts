@@ -33,7 +33,7 @@ const deleteNews = async (id: number | string) => {
       throw new Error(`Erro ao deletar notícia: ${res.statusText}`);
     }
 
-    revalidatePath("/");
+    revalidatePath("/home");
 
     isDeleted = true;
   } catch (error) {

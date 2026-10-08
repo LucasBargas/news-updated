@@ -1,6 +1,6 @@
-import getNewsList from "../actions/get-news-list";
+import getNewsList from "../../actions/get-news-list";
 
-const Home = async () => {
+const HomePage = async () => {
   const data = await getNewsList("", "random", false);
 
   if (!data) return null;
@@ -17,4 +17,4 @@ const Home = async () => {
   );
 };
 
-export default Home;
+export default HomePage;

@@ -14,7 +14,7 @@ export const HeaderNav = ({ handleClick }: HeaderNavProps) => {
       <ul>
         <li>
           <Link
-            href="/"
+            href="/home"
             onClick={handleClick}
             className={pathname === "/" ? styles.active : ""}
           >
