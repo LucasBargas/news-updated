@@ -1,0 +1,29 @@
+.cardActionsWrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 550px;
+  padding-top: 1rem;
+  margin-inline: auto;
+  border-radius: 0.875rem;
+
+  .cardActionsLeft {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  button,
+  a {
+    display: block;
+    background: #eeeaea;
+    color: var(--text-color);
+    transition: 0.3s;
+    font-size: 1rem;
+    padding: 0.5rem;
+    box-shadow: var(--shadow);
+    border-radius: 0.5rem;
+
+    &:hover {
+      background: #ebe1e1;
+    }
+  }
+}

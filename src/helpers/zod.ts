@@ -10,7 +10,7 @@ export const newsFormSchema = z.object({
     .string()
     .trim()
     .min(1, "O conteúdo é obrigatório.")
-    .min(20, "O conteúdo deve ter no mínimo 20 caracteres."),
+    .min(30, "O conteúdo deve ter no mínimo 30 caracteres."),
   category: z
     .string()
     .trim()

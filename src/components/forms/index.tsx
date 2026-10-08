@@ -53,7 +53,7 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
   };
 
   return (
-    <div className={styles.fromWrapper}>
+    <div className={styles.formsWrapper}>
       <div className={styles.formsHeader}>
         <span></span>
         <h1>{singleData ? "Atualize a notícia" : "Cadastre uma notícia"}</h1>

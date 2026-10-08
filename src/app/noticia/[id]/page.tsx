@@ -1,4 +1,7 @@
 import getNewsId from "@/src/actions/get-news-id";
+import { Card } from "@/src/components/card";
+import { CardActions } from "@/src/components/card/card-actions";
+import { notFound } from "next/navigation";
 
 interface IPageParams {
   params: Promise<{
@@ -10,12 +13,12 @@ const NewsById = async ({ params }: IPageParams) => {
   const { id } = await params;
   const data = await getNewsId(id);
 
-  if (!data) return null;
+  if (!data) return notFound();
 
   return (
     <section className="container">
-      <h3>{data.title}</h3>
-      <p>{data.content}</p>
+      <Card news={data} />
+      <CardActions news={data} />
     </section>
   );
 };

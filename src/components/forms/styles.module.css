@@ -1,12 +1,13 @@
-.fromWrapper {
+.formsWrapper {
   background: #fff;
   max-width: 550px;
   margin-inline: auto;
   border-radius: 0.875rem;
+  box-shadow: var(--shadow);
+  overflow: auto;
 
   .formsHeader {
-    padding-bottom: 3vh;
-    border-bottom: 1px solid var(--background-color);
+    border-bottom: 1px solid #f7f7f7;
     padding: 2rem 2.5rem;
     position: relative;
 
@@ -22,7 +23,7 @@
     }
 
     h1 {
-      font-size: 1.375rem;
+      font-size: 1.5rem;
     }
 
     p {
@@ -84,10 +85,8 @@
   .formsAreaButton {
     display: flex;
     justify-content: flex-end;
-    background: #f3f0f0;
+    background: #eeeaea;
     border-top: 1px solid var(--background-color);
-    border-bottom-left-radius: 0.875rem;
-    border-bottom-right-radius: 0.875rem;
     padding: 1.125rem 2.5rem;
 
     button {
@@ -151,37 +150,7 @@
   .formsAreaError {
     display: block;
     font-size: 0.875rem;
-    color: tomato;
+    color: #ff6347;
     margin-top: 0.25rem;
-  }
-}
-
-.formsAreaButton {
-  display: flex;
-  justify-content: flex-end;
-  background: #f3f0f0;
-  border-top: 1px solid var(--background-color);
-  border-bottom-left-radius: 0.875rem;
-  border-bottom-right-radius: 0.875rem;
-  padding: 1.125rem 2.5rem;
-
-  button {
-    display: flex;
-    align-items: center;
-    background: #3a3535;
-    color: var(--light-color);
-    font-size: 0.75rem;
-    padding: 0.875rem 1.5rem;
-    font-weight: 600;
-    border-radius: 0.5rem;
-    transition: 0.3s;
-
-    &:hover {
-      background: var(--text-color);
-    }
-
-    span {
-      margin-right: 0.75rem;
-    }
   }
 }

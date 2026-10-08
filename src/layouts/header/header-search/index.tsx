@@ -37,7 +37,7 @@ export const HeaderSearch = (props: HeaderSearchProps) => {
     }
 
     setIsOpen(false);
-    router.push(`pesquisa?q=${search}`);
+    router.push(`/pesquisa?q=${search}`);
     clearInput();
     props.handleClick();
   };
