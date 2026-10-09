@@ -2,6 +2,7 @@
 
 import postNews from "@/src/actions/post-news";
 import updateNews from "@/src/actions/update-news";
+import { formConfig } from "@/src/helpers/form-config";
 import { INews } from "@/src/types/news";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -44,8 +45,6 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
       news = await postNews(data);
     }
 
-    // post/edit categorites
-
     if (news?.id) {
       router.push(`/noticia/${news.id}`);
     } else {
@@ -72,39 +71,18 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formsArea}>
-          <FormsField
-            errors={errors}
-            errorMessage={errors.title?.message}
-            label="Título:"
-            placeholder="Defina o título da notícia"
-            {...register("title")}
-          />
-
-          <FormsField
-            errors={errors}
-            errorMessage={errors.content?.message}
-            label="Conteúdo:"
-            placeholder="Defina o texto da notícia"
-            as="textarea"
-            rows={4}
-            {...register("content")}
-          />
-
-          <FormsField
-            errors={errors}
-            errorMessage={errors.category?.message}
-            label="Categoria:"
-            placeholder="Defina uma categoria ou escolha uma das extistentes"
-            {...register("category")}
-          />
-
-          <FormsField
-            errors={errors}
-            errorMessage={errors.author?.message}
-            label="Autor:"
-            placeholder="Defina o autor da notícia"
-            {...register("author")}
-          />
+          {formConfig.map((field) => (
+            <FormsField
+              key={field.name}
+              label={field.label}
+              placeholder={field.placeholder}
+              as={field.as}
+              rows={field.rows}
+              errors={errors}
+              errorMessage={errors[field.name]?.message}
+              {...register(field.name)}
+            />
+          ))}
         </div>
 
         <div className={styles.formsAreaButton}>

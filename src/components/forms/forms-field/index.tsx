@@ -1,6 +1,7 @@
 import React from "react";
 import { FieldErrors } from "react-hook-form";
 import { ErrorMessage } from "../../error-message";
+import { FormCategories } from "../forms-categories";
 import styles from "./styles.module.css";
 
 type InputOrTextareaProps = React.ComponentProps<"input"> &
@@ -31,6 +32,8 @@ export const FormsField = ({
       )}
 
       {errors && <ErrorMessage>{errorMessage}</ErrorMessage>}
+
+      {props.name === "category" && <FormCategories />}
     </div>
   );
 };

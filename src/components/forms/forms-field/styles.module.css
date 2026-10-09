@@ -1,4 +1,6 @@
 .formsField {
+  position: relative;
+
   &:not(:last-of-type) {
     margin-bottom: 1.25rem;
   }
