@@ -1,0 +1,24 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  padding-top: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loader {
+    border: 8px solid transparent;
+    border-top: 8px solid var(--text-color);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    animation: spin 1s linear infinite;
+  }
+}

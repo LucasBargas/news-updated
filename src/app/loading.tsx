@@ -1,18 +1,13 @@
-// app/loading.tsx
+import styles from "./loading.module.css";
 
-export default function Loading() {
+const Loading = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "50vh",
-        flexDirection: "column",
-        gap: "10px",
-      }}
-    >
-      <h2>Carregando notícias...</h2>
+    <div className="container">
+      <div className={styles.loading}>
+        <div className={styles.loader}></div>
+      </div>
     </div>
   );
-}
+};
+
+export default Loading;
