@@ -11,6 +11,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { newsFormSchema, type NewsFormData } from "../../helpers/zod";
 import { FormsFavorite } from "./forms-favorite";
+import { FormsField } from "./forms-field";
 import styles from "./styles.module.css";
 
 export const Forms = ({ singleData }: { singleData?: INews }) => {
@@ -43,6 +44,8 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
       news = await postNews(data);
     }
 
+    // post/edit categorites
+
     if (news?.id) {
       router.push(`/noticia/${news.id}`);
     } else {
@@ -69,57 +72,39 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formsArea}>
-          <label htmlFor="title">Título:</label>
-          <input
-            type="text"
-            id="title"
+          <FormsField
+            errors={errors}
+            errorMessage={errors.title?.message}
+            label="Título:"
             placeholder="Defina o título da notícia"
             {...register("title")}
           />
-          {errors.title && (
-            <span className={styles.formsAreaError}>
-              {errors.title.message}
-            </span>
-          )}
 
-          <label htmlFor="content">Conteúdo:</label>
-          <textarea
-            id="content"
+          <FormsField
+            errors={errors}
+            errorMessage={errors.content?.message}
+            label="Conteúdo:"
             placeholder="Defina o texto da notícia"
+            as="textarea"
             rows={4}
             {...register("content")}
           />
-          {errors.content && (
-            <span className={styles.formsAreaError}>
-              {errors.content.message}
-            </span>
-          )}
 
-          <label htmlFor="category">Categoria:</label>
-          <input
-            type="text"
-            id="category"
-            placeholder="Digite uma categoria ou escolha uma das existentes"
+          <FormsField
+            errors={errors}
+            errorMessage={errors.category?.message}
+            label="Categoria:"
+            placeholder="Defina uma categoria ou escolha uma das extistentes"
             {...register("category")}
           />
-          {errors.category && (
-            <span className={styles.formsAreaError}>
-              {errors.category.message}
-            </span>
-          )}
 
-          <label htmlFor="author">Autor:</label>
-          <input
-            type="text"
-            id="author"
+          <FormsField
+            errors={errors}
+            errorMessage={errors.author?.message}
+            label="Autor:"
             placeholder="Defina o autor da notícia"
             {...register("author")}
           />
-          {errors.author && (
-            <span className={styles.formsAreaError}>
-              {errors.author.message}
-            </span>
-          )}
         </div>
 
         <div className={styles.formsAreaButton}>
