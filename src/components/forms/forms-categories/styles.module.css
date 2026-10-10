@@ -6,6 +6,9 @@
   background: #fff;
   box-shadow: var(--shadow);
   border-radius: 0.5rem;
+  overflow-y: auto;
+  max-height: 12rem;
+  height: auto;
 
   ul {
     li {
