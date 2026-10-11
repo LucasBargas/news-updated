@@ -23,6 +23,8 @@ export const FormCategories = () => {
       setCategories(data);
     };
 
+    console.log(categories);
+
     fetchCategories();
   }, []);
 
