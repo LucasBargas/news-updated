@@ -1,16 +1,21 @@
 "use client";
 
-import getCategoriesList from "@/src/actions/categories-list";
+import deleteCategories from "@/src/actions/delete-categories";
+import getCategoriesList from "@/src/actions/get-categories-list";
 import { ICategories } from "@/src/types/categories";
 import React from "react";
 import styles from "./styles.module.css";
-// Assumindo que você tem essa tipagem acessível aqui também
 
 export const FormCategories = () => {
-  // 1. Adicionada a tipagem do TypeScript para o estado
   const [categories, setCategories] = React.useState<ICategories[] | null>(
     null,
   );
+
+  const handleClick = async (id: string) => {
+    setCategories((prev) => (prev ? prev.filter((el) => el.id !== id) : prev));
+
+    await deleteCategories(id);
+  };
 
   React.useEffect(() => {
     const fetchCategories = async () => {
@@ -32,7 +37,9 @@ export const FormCategories = () => {
           categories.map((category) => (
             <li key={category.id}>
               <span>{category.title}</span>{" "}
-              <button type="button">Apagar</button>
+              <button type="button" onClick={() => handleClick(category.id)}>
+                Apagar
+              </button>
             </li>
           ))
         )}
