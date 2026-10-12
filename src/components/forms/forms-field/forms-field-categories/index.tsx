@@ -6,7 +6,7 @@ import { ICategories } from "@/src/types/categories";
 import React from "react";
 import styles from "./styles.module.css";
 
-export const FormCategories = () => {
+export const FormsFieldCategories = () => {
   const [categories, setCategories] = React.useState<ICategories[] | null>(
     null,
   );
