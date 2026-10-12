@@ -13,7 +13,6 @@ export const FormCategories = () => {
 
   const handleClick = async (id: string) => {
     setCategories((prev) => (prev ? prev.filter((el) => el.id !== id) : prev));
-
     await deleteCategories(id);
   };
 
@@ -22,8 +21,6 @@ export const FormCategories = () => {
       const data = await getCategoriesList();
       setCategories(data);
     };
-
-    console.log(categories);
 
     fetchCategories();
   }, []);
