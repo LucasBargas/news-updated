@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 
 interface FormsFavoriteProps {
   isFavorite: boolean | undefined;
-  setIsFavorite: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FormsFavorite = ({

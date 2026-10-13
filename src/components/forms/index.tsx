@@ -9,21 +9,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { newsFormSchema, type NewsFormData } from "../../helpers/zod";
 import { FormsFavorite } from "./forms-favorite";
 import { FormsField } from "./forms-field";
 import styles from "./styles.module.css";
 
 export const Forms = ({ singleData }: { singleData?: INews }) => {
-  const [isFavorite, setIsFavorite] = React.useState(singleData?.isFavorite);
+  const [isFavorite, setIsFavorite] = React.useState(
+    singleData?.isFavorite ?? false,
+  );
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<NewsFormData>({
+  const methods = useForm<NewsFormData>({
     resolver: zodResolver(newsFormSchema),
     defaultValues: {
       title: singleData?.title ?? "",
@@ -32,6 +30,12 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
       author: singleData?.author ?? "",
     },
   });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
   const onSubmit = async (data: NewsFormData) => {
     let news: INews | null = null;
@@ -45,13 +49,7 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
       news = await postNews(data);
     }
 
-    if (news?.id) {
-      router.push(`/noticia/${news.id}`);
-    } else {
-      console.error(
-        "Erro ao salvar a notícia. Nenhuma informação retornou da API.",
-      );
-    }
+    router.push(`/noticia/${news?.id}`);
   };
 
   return (
@@ -69,29 +67,31 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
         )}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formsArea}>
-          {formConfig.map((field) => (
-            <FormsField
-              key={field.name}
-              label={field.label}
-              placeholder={field.placeholder}
-              as={field.as}
-              rows={field.rows}
-              errors={errors}
-              errorMessage={errors[field.name]?.message}
-              {...register(field.name)}
-            />
-          ))}
-        </div>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.formsArea}>
+            {formConfig.map((field) => (
+              <FormsField
+                key={field.name}
+                label={field.label}
+                placeholder={field.placeholder}
+                as={field.as}
+                rows={field.rows}
+                errors={errors}
+                errorMessage={errors[field.name]?.message}
+                {...register(field.name)}
+              />
+            ))}
+          </div>
 
-        <div className={styles.formsAreaButton}>
-          <button type="submit">
-            <span>{singleData ? "Atualizar" : "Cadastrar"}</span>
-            <FontAwesomeIcon icon={faArrowRightLong} />
-          </button>
-        </div>
-      </form>
+          <div className={styles.formsAreaButton}>
+            <button type="submit">
+              <span>{singleData ? "Atualizar" : "Cadastrar"}</span>
+              <FontAwesomeIcon icon={faArrowRightLong} />
+            </button>
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 };

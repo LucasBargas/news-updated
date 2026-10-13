@@ -4,18 +4,45 @@
   width: 100%;
   z-index: 999;
   background: #fff;
-  box-shadow: var(--shadow);
+  box-shadow: -2px 1px 23px -1px #2222225e;
   border-radius: 0.5rem;
   overflow-y: auto;
   max-height: 12rem;
   height: auto;
 
   ul {
+    padding: 0.5rem 0;
+
     li {
+      position: relative;
       display: flex;
-      justify-content: space-between;
+      align-items: center;
       cursor: pointer;
-      padding: 1rem;
+
+      &.formsCategoriesListEmpty {
+        padding: 0.75rem;
+      }
+
+      span {
+        flex: 1;
+        min-width: 0;
+        padding: 0.75rem;
+        transition: 0.2s;
+
+        &.active,
+        &:hover {
+          background: var(--background-color);
+        }
+      }
+
+      .formsCategoriesListActions {
+        display: flex;
+        gap: 1rem;
+        flex-shrink: 0;
+        position: absolute;
+        right: 0;
+        padding-right: 0.5rem;
+      }
     }
   }
 }

@@ -21,19 +21,32 @@ export const FormsField = ({
   as = "input",
   ...props
 }: FormsCategoriesProps) => {
+  const [showCategories, setShowCategories] = React.useState(false);
+
   return (
-    <div className={styles.formsField}>
+    <div
+      className={`${styles.formsField} ${
+        props.name === "category" ? styles.isRelative : ""
+      }`}
+    >
       <label htmlFor={props.name}>{label}</label>
 
       {as === "textarea" ? (
         <textarea id={props.name} {...props} />
       ) : (
-        <input type="text" id={props.name} {...props} />
+        <input
+          type="text"
+          id={props.name}
+          {...props}
+          onClick={() => setShowCategories(!showCategories)}
+        />
+      )}
+
+      {props.name === "category" && showCategories && (
+        <FormsFieldCategories setShowCategories={setShowCategories} />
       )}
 
       {errors && <ErrorMessage>{errorMessage}</ErrorMessage>}
-
-      {props.name === "category" && <FormsFieldCategories />}
     </div>
   );
 };
