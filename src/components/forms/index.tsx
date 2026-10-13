@@ -49,8 +49,6 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
       news = await postNews(data);
     }
 
-    console.log(data.category);
-
     router.push(`/noticia/${news?.id}`);
   };
 
