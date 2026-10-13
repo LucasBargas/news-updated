@@ -12,11 +12,17 @@ interface FormsFieldCategoriesProps {
   setShowCategories: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const normalizeCategory = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .trim()
+    .toLocaleLowerCase("pt-BR");
+
 export const FormsFieldCategories = ({
   setShowCategories,
 }: FormsFieldCategoriesProps) => {
   const { control, setValue } = useFormContext<NewsFormData>();
-
   const [categories, setCategories] = React.useState<ICategories[] | null>(
     null,
   );
@@ -26,12 +32,17 @@ export const FormsFieldCategories = ({
     name: "category",
   });
 
-  const normalizeCategory = (value: string) =>
-    value
-      .normalize("NFD")
-      .replace(/\p{Diacritic}/gu, "")
-      .trim()
-      .toLocaleLowerCase("pt-BR");
+  const search = normalizeCategory(selectedCategory ?? "");
+
+  const matchingCategories =
+    categories?.filter((category) =>
+      normalizeCategory(category.title).includes(search),
+    ) ?? [];
+
+  const visibleCategories =
+    !categories || search.length < 3 || matchingCategories.length === 0
+      ? (categories ?? [])
+      : matchingCategories;
 
   const handleDelete = async (id: string) => {
     await deleteCategories(id);
@@ -61,25 +72,8 @@ export const FormsFieldCategories = ({
     fetchCategories();
   }, []);
 
-  React.useEffect(() => {
-    if (!categories || !selectedCategory) return;
-
-    const match = categories.find(
-      (category) =>
-        normalizeCategory(category.title) ===
-        normalizeCategory(selectedCategory),
-    );
-
-    if (match && match.title !== selectedCategory) {
-      setValue("category", match.title, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-    }
-  }, [categories, selectedCategory, setValue]);
-
   const isLoading = categories === null;
-  const isEmpty = categories?.length === 0;
+  const isEmpty = categories !== null && categories.length === 0;
 
   return (
     <nav className={styles.formsCategoriesList}>
@@ -96,30 +90,36 @@ export const FormsFieldCategories = ({
           </li>
         )}
 
-        {categories?.map((category) => (
-          <li key={category.id}>
-            <span
-              onClick={() => handleSelect(category)}
-              className={`${selectedCategory === category.title ? styles.active : ""}`}
-            >
-              {category.title}
-            </span>
+        {visibleCategories.map((category) => {
+          const isSelected =
+            normalizeCategory(selectedCategory ?? "") ===
+            normalizeCategory(category.title);
 
-            <div className={styles.formsCategoriesListActions}>
-              <button
-                type="button"
-                title="Deletar categoria"
-                onClick={() => handleDelete(category.id)}
+          return (
+            <li key={category.id}>
+              <span
+                onClick={() => handleSelect(category)}
+                className={isSelected ? styles.active : ""}
               >
-                Deletar
-              </button>
+                {category.title}
+              </span>
 
-              <button type="button" title="Editar categoria">
-                Editar
-              </button>
-            </div>
-          </li>
-        ))}
+              <div className={styles.formsCategoriesListActions}>
+                <button
+                  type="button"
+                  title="Deletar categoria"
+                  onClick={() => handleDelete(category.id)}
+                >
+                  Deletar
+                </button>
+
+                <button type="button" title="Editar categoria">
+                  Editar
+                </button>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

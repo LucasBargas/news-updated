@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldErrors } from "react-hook-form";
+import type { FieldErrors } from "react-hook-form";
 import { ErrorMessage } from "../../error-message";
 import { FormsFieldCategories } from "./forms-field-categories";
 import styles from "./styles.module.css";
@@ -22,9 +22,26 @@ export const FormsField = ({
   ...props
 }: FormsCategoriesProps) => {
   const [showCategories, setShowCategories] = React.useState(false);
+  const fieldRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!showCategories) return;
+
+    const handleClickOutside = (e: PointerEvent) => {
+      if (fieldRef.current && !fieldRef.current.contains(e.target as Node)) {
+        setShowCategories(false);
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, [showCategories]);
 
   return (
     <div
+      ref={fieldRef}
       className={`${styles.formsField} ${
         props.name === "category" ? styles.isRelative : ""
       }`}
@@ -38,7 +55,11 @@ export const FormsField = ({
           type="text"
           id={props.name}
           {...props}
-          onClick={() => setShowCategories(!showCategories)}
+          onClick={() => {
+            if (props.name === "category") {
+              setShowCategories(true);
+            }
+          }}
         />
       )}
 
