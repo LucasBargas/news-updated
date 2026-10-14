@@ -1,4 +1,4 @@
-import getNewsList from "@/src/actions/get-news-list";
+import getNewsList from "@/src/actions/news-actions/get-news-list";
 
 const FavoritesNews = async () => {
   const data = await getNewsList("", "random", true);

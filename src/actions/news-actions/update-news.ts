@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { INews } from "../types/news";
+import { INews } from "../../types/news";
 
 const updateNews = async (
   id: number | string,

@@ -1,4 +1,5 @@
-import getNewsId from "@/src/actions/get-news-id";
+import getCategoriesList from "@/src/actions/categories-actions/get-categories-list";
+import getNewsId from "@/src/actions/news-actions/get-news-id";
 import { Forms } from "@/src/components/forms";
 import { notFound } from "next/navigation";
 
@@ -10,13 +11,14 @@ interface IPageParams {
 
 const EditNewsPage = async ({ params }: IPageParams) => {
   const { id } = await params;
-  const data = await getNewsId(id);
+  const news = await getNewsId(id);
+  const categories = await getCategoriesList();
 
-  if (!data) return notFound();
+  if (!news) return notFound();
 
   return (
     <section className="container">
-      <Forms singleData={data} />
+      <Forms singleData={news} categoriesList={categories} />
     </section>
   );
 };

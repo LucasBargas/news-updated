@@ -1,8 +1,6 @@
 "use server";
 
-import { INews } from "../types/news";
-
-const postNews = async (newsData: INews) => {
+const postCategories = async (title: string) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -12,7 +10,7 @@ const postNews = async (newsData: INews) => {
     );
   }
 
-  const endpoint = `${supabaseUrl}/rest/v1/news`;
+  const endpoint = `${supabaseUrl}/rest/v1/categories`;
 
   try {
     const res = await fetch(endpoint, {
@@ -23,22 +21,22 @@ const postNews = async (newsData: INews) => {
         "Content-Type": "application/json",
         Prefer: "return=representation",
       },
-      body: JSON.stringify(newsData),
+      body: JSON.stringify({ title }),
     });
 
     if (!res.ok) {
       const errorText = await res.text();
       console.error(`Erro do Supabase (${res.status}):`, errorText);
-      throw new Error(`Erro ao postar notícia: ${res.statusText}`);
+      throw new Error(`Erro ao postar categoria: ${res.statusText}`);
     }
 
     const data = await res.json();
 
-    return data[0] as INews;
+    return data[0];
   } catch (error) {
-    console.error("Erro na requisição postNews:", error);
+    console.error("Erro na requisição postCategories:", error);
     throw error;
   }
 };
 
-export default postNews;
+export default postCategories;

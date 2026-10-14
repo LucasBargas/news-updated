@@ -1,18 +1,16 @@
+.label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem 0;
+  letter-spacing: 0.05rem;
+}
+
 .formsField {
+  margin-bottom: 0.25rem;
+
   &.isRelative {
     position: relative;
-  }
-
-  &:not(:last-of-type) {
-    margin-bottom: 1.25rem;
-  }
-
-  label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.05rem;
   }
 
   input,
@@ -34,5 +32,24 @@
 
   input {
     height: 2.75rem;
+  }
+
+  .formsFieldChevron {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    padding: 0.5rem;
+
+    svg {
+      transition: transform 0.3s ease;
+    }
+
+    &.active {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
   }
 }

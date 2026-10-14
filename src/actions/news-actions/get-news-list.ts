@@ -1,6 +1,6 @@
 "use server";
 
-import { INews } from "../types/news";
+import { INews } from "../../types/news";
 
 export type OrderOption = "recent" | "oldest" | "random";
 

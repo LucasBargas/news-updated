@@ -1,4 +1,4 @@
-import getNewsId from "@/src/actions/get-news-id";
+import getNewsId from "@/src/actions/news-actions/get-news-id";
 import { Card } from "@/src/components/card";
 import { CardActions } from "@/src/components/card/card-actions";
 import { notFound } from "next/navigation";

@@ -1,8 +1,8 @@
 "use server";
 
-import { INews } from "../types/news";
+import { ICategories } from "../../types/categories";
 
-const getNewsId = async (id: number | string): Promise<INews | null> => {
+const getCategoriesList = async () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -12,7 +12,7 @@ const getNewsId = async (id: number | string): Promise<INews | null> => {
     );
   }
 
-  const endpoint = `${supabaseUrl}/rest/v1/news?select=*&id=eq.${id}`;
+  const endpoint = `${supabaseUrl}/rest/v1/categories?select=*`;
 
   try {
     const res = await fetch(endpoint, {
@@ -26,15 +26,16 @@ const getNewsId = async (id: number | string): Promise<INews | null> => {
     });
 
     if (!res.ok) {
-      throw new Error(`Erro ao buscar a notícia: ${res.statusText}`);
+      throw new Error(`Erro ao buscar categorias: ${res.statusText}`);
     }
 
-    const data = (await res.json()) as INews[];
-    return data[0];
+    const data = (await res.json()) as ICategories[];
+
+    return data;
   } catch (error) {
-    console.error(`Erro na requisição getNewsId para o id ${id}:`, error);
+    console.error("Erro na requisição getCategoriesList:", error);
     return null;
   }
 };
 
-export default getNewsId;
+export default getCategoriesList;

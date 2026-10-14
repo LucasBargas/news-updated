@@ -1,30 +1,25 @@
 "use client";
 
-import deleteCategories from "@/src/actions/delete-categories";
-import getCategoriesList from "@/src/actions/get-categories-list";
+import deleteCategories from "@/src/actions/categories-actions/delete-categories";
+import { normalizeCategory } from "@/src/helpers/normalize-category";
 import type { NewsFormData } from "@/src/helpers/zod";
 import type { ICategories } from "@/src/types/categories";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import styles from "./styles.module.css";
 
 interface FormsFieldCategoriesProps {
   setShowCategories: React.Dispatch<React.SetStateAction<boolean>>;
+  categoriesList: ICategories[] | null;
 }
 
-const normalizeCategory = (value: string) =>
-  value
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .trim()
-    .toLocaleLowerCase("pt-BR");
-
-export const FormsFieldCategories = ({
-  setShowCategories,
-}: FormsFieldCategoriesProps) => {
+export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
   const { control, setValue } = useFormContext<NewsFormData>();
   const [categories, setCategories] = React.useState<ICategories[] | null>(
-    null,
+    props.categoriesList ?? null,
   );
 
   const selectedCategory = useWatch({
@@ -60,17 +55,8 @@ export const FormsFieldCategories = ({
       shouldDirty: true,
     });
 
-    setShowCategories(false);
+    props.setShowCategories(false);
   };
-
-  React.useEffect(() => {
-    const fetchCategories = async () => {
-      const data = await getCategoriesList();
-      setCategories(data);
-    };
-
-    fetchCategories();
-  }, []);
 
   const isLoading = categories === null;
   const isEmpty = categories !== null && categories.length === 0;
@@ -107,14 +93,14 @@ export const FormsFieldCategories = ({
               <div className={styles.formsCategoriesListActions}>
                 <button
                   type="button"
-                  title="Deletar categoria"
                   onClick={() => handleDelete(category.id)}
+                  title="Deletar categoria"
                 >
-                  Deletar
+                  <FontAwesomeIcon icon={faTrashCan} />
                 </button>
 
                 <button type="button" title="Editar categoria">
-                  Editar
+                  <FontAwesomeIcon icon={faPencil} />
                 </button>
               </div>
             </li>

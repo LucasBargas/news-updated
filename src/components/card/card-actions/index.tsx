@@ -1,7 +1,7 @@
 "use client";
 
-import deleteNews from "@/src/actions/delete-news";
-import updateNews from "@/src/actions/update-news";
+import deleteNews from "@/src/actions/news-actions/delete-news";
+import updateNews from "@/src/actions/news-actions/update-news";
 import { INews } from "@/src/types/news";
 import {
   faHeart as faHeartRegular,
@@ -41,7 +41,11 @@ export const CardActions = ({ news }: ICardActionsProps) => {
   return (
     <div className={styles.cardActionsWrapper}>
       <div className={styles.cardActionsLeft}>
-        <button onClick={handleDeleteNews} title="Deletar notícia">
+        <button
+          type="button"
+          onClick={handleDeleteNews}
+          title="Deletar notícia"
+        >
           <FontAwesomeIcon icon={faTrashCan} />
         </button>
         <Link

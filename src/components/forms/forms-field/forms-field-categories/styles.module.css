@@ -37,11 +37,16 @@
 
       .formsCategoriesListActions {
         display: flex;
-        gap: 1rem;
+        gap: 0.25rem;
         flex-shrink: 0;
         position: absolute;
         right: 0;
         padding-right: 0.5rem;
+
+        button {
+          background: transparent;
+          padding: 0.5rem 0 0.5rem 0.75rem;
+        }
       }
     }
   }

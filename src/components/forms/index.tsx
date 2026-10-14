@@ -1,8 +1,11 @@
 "use client";
 
-import postNews from "@/src/actions/post-news";
-import updateNews from "@/src/actions/update-news";
+import postCategories from "@/src/actions/categories-actions/post-categories";
+import postNews from "@/src/actions/news-actions/post-news";
+import updateNews from "@/src/actions/news-actions/update-news";
 import { formConfig } from "@/src/helpers/form-config";
+import { normalizeCategory } from "@/src/helpers/normalize-category";
+import { ICategories } from "@/src/types/categories";
 import { INews } from "@/src/types/news";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +18,12 @@ import { FormsFavorite } from "./forms-favorite";
 import { FormsField } from "./forms-field";
 import styles from "./styles.module.css";
 
-export const Forms = ({ singleData }: { singleData?: INews }) => {
+interface IFormsProps {
+  singleData?: INews;
+  categoriesList: ICategories[] | null;
+}
+
+export const Forms = ({ singleData, categoriesList }: IFormsProps) => {
   const [isFavorite, setIsFavorite] = React.useState(
     singleData?.isFavorite ?? false,
   );
@@ -49,6 +57,17 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
       news = await postNews(data);
     }
 
+    const categoryExists = categoriesList?.some(
+      ({ title }) =>
+        normalizeCategory(title) === normalizeCategory(data.category),
+    );
+
+    if (!categoryExists) {
+      await postCategories(data.category);
+    } else {
+      console.error("Categoria já cadastrada");
+    }
+
     router.push(`/noticia/${news?.id}`);
   };
 
@@ -73,6 +92,7 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
             {formConfig.map((field) => (
               <FormsField
                 key={field.name}
+                categoriesList={categoriesList}
                 label={field.label}
                 placeholder={field.placeholder}
                 as={field.as}
