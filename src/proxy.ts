@@ -7,10 +7,7 @@ export const proxy = (request: NextRequest) => {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
-  const newPath = pathname.replace(
-    /^\/(cadastrar-noticia|noticias-favoritas)\/.+/,
-    "/$1",
-  );
+  const newPath = pathname.replace(/^\/(cadastrar-noticia)\/.+/, "/$1");
 
   if (newPath !== pathname) {
     return NextResponse.redirect(new URL(newPath, request.url));
@@ -20,5 +17,5 @@ export const proxy = (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/", "/cadastrar-noticia/:path*", "/noticias-favoritas/:path*"],
+  matcher: ["/", "/cadastrar-noticia/:path*"],
 };

@@ -6,7 +6,7 @@ const FavoritesNews = async () => {
   if (!data) return null;
 
   return (
-    <div className="container">
+    <div>
       {data.map((el) => (
         <li key={el.id}>
           <h3>{el.title}</h3>
