@@ -52,8 +52,11 @@ svg {
 .app-area {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh + 2rem);
-  /* padding-top: 9rem; */
+  min-height: calc(100vh + 12rem);
+
+  @media (max-width: 820px) {
+    min-height: calc(100vh + 17rem);
+  }
 }
 
 .app-area > main {
