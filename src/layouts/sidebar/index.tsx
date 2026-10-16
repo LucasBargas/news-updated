@@ -44,14 +44,14 @@ export const Sidebar = () => {
                   href={
                     el.title === "Todas"
                       ? href
-                      : getCategory(el.categorySlug).categoryHref
+                      : getCategory(el.categorySlug!).categoryHref
                   }
                   className={
                     el.title === "Todas"
                       ? pathname === href
                         ? styles.active
                         : ""
-                      : getCategory(el.categorySlug).isActive
+                      : getCategory(el.categorySlug!).isActive
                         ? styles.active
                         : ""
                   }
