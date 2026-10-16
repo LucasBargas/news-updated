@@ -1,6 +1,7 @@
 "use client";
 
 import getNewsList from "@/src/actions/news-actions/get-news-list";
+import { useNewsOrder } from "@/src/hooks/use-news-order";
 import { INews } from "@/src/types/news";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -18,12 +19,13 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const pathname = usePathname();
   const isSearchPage = pathname.startsWith("/pesquisa");
+  const { order } = useNewsOrder();
 
   React.useEffect(() => {
     const fetchNews = async () => {
       setIsLoading(true);
       try {
-        const data = await getNewsList(param, "recent", isFavoritePage);
+        const data = await getNewsList(param, order, isFavoritePage);
         setNews(data);
       } catch (error) {
         console.error("Erro ao buscar notícias:", error);
@@ -33,7 +35,7 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
     };
 
     fetchNews();
-  }, [param, isFavoritePage]);
+  }, [param, isFavoritePage, order]);
 
   return (
     <section className={!isSearchPage ? styles.showcase : ""}>

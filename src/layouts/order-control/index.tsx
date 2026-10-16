@@ -1,5 +1,78 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+"use client";
+
+import { IOrder, orderList } from "@/src/helpers/order-config";
+import { useNewsOrder } from "@/src/hooks/use-news-order";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePathname } from "next/navigation";
+import React from "react";
 import styles from "./styles.module.css";
 
 export const OrderControl = () => {
-  return <section className={styles.orderControl}>OrderControl</section>;
+  const [showOrderList, setShowOrderList] = React.useState(false);
+  const [category, setCategory] = React.useState("Aleatórias");
+  const { setOrder } = useNewsOrder();
+  const pathname = usePathname();
+  const orderControlRef = React.useRef<HTMLElement | null>(null);
+
+  const handleClick = (order: IOrder) => {
+    setCategory(order.title);
+    setOrder(order.ref);
+    setShowOrderList(false);
+  };
+
+  React.useEffect(() => {
+    setOrder("random");
+    setCategory("Aleatórias");
+  }, [pathname, setOrder]);
+
+  React.useEffect(() => {
+    if (!showOrderList) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        orderControlRef.current &&
+        !orderControlRef.current.contains(e.target as Node)
+      ) {
+        setShowOrderList(false);
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, [showOrderList]);
+
+  return (
+    <section className={styles.orderControl} ref={orderControlRef}>
+      <div>
+        Ordenar notícias por:{" "}
+        <span onClick={() => setShowOrderList((show) => !show)}>
+          {category}{" "}
+          <FontAwesomeIcon
+            icon={faChevronDown}
+            className={`${styles.chevron} ${
+              showOrderList ? styles.chevronOpen : ""
+            }`}
+          />
+        </span>
+      </div>
+
+      <nav className={showOrderList ? styles.active : ""}>
+        <ul>
+          {orderList.map((el) => (
+            <li
+              onClick={() => handleClick(el)}
+              key={el.ref}
+              className={category === el.title ? styles.active : ""}
+            >
+              {el.title}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </section>
+  );
 };
