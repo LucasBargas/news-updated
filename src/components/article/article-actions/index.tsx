@@ -16,11 +16,11 @@ import Link from "next/link";
 import React from "react";
 import styles from "./styles.module.css";
 
-interface ICardActionsProps {
+interface IArticleActionsProps {
   news: INews;
 }
 
-export const CardActions = ({ news }: ICardActionsProps) => {
+export const ArticleActions = ({ news }: IArticleActionsProps) => {
   const [isFavorite, setIsFavorite] = React.useState(news.isFavorite);
 
   const handleEditNews = async () => {
@@ -39,8 +39,8 @@ export const CardActions = ({ news }: ICardActionsProps) => {
   };
 
   return (
-    <div className={styles.cardActionsWrapper}>
-      <div className={styles.cardActionsLeft}>
+    <article className={styles.articleActionsWrapper}>
+      <div className={styles.articleActionsLeft}>
         <button
           type="button"
           onClick={handleDeleteNews}
@@ -48,16 +48,12 @@ export const CardActions = ({ news }: ICardActionsProps) => {
         >
           <FontAwesomeIcon icon={faTrashCan} />
         </button>
-        <Link
-          href={`/editar-noticia/${news.id}`}
-          title="Editar notícia"
-          className={styles.suaClasseDeBotao}
-        >
+        <Link href={`/editar-noticia/${news.id}`} title="Editar notícia">
           <FontAwesomeIcon icon={faPencil} />
         </Link>
       </div>
 
-      <div className={styles.cardActionsRight}>
+      <div className={styles.articleActionsRight}>
         <button
           type="button"
           onClick={handleEditNews}
@@ -66,6 +62,6 @@ export const CardActions = ({ news }: ICardActionsProps) => {
           <FontAwesomeIcon icon={isFavorite ? faHeartSolid : faHeartRegular} />
         </button>
       </div>
-    </div>
+    </article>
   );
 };

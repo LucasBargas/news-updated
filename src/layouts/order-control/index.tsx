@@ -1,3 +1,5 @@
+import styles from "./styles.module.css";
+
 export const OrderControl = () => {
-  return <div>OrderControl</div>;
+  return <section className={styles.orderControl}>OrderControl</section>;
 };

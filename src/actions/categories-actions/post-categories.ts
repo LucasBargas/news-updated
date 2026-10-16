@@ -1,5 +1,7 @@
 "use server";
 
+import { createSlug } from "@/src/helpers/create-slug";
+
 const postCategories = async (title: string) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -21,7 +23,7 @@ const postCategories = async (title: string) => {
         "Content-Type": "application/json",
         Prefer: "return=representation",
       },
-      body: JSON.stringify({ title }),
+      body: JSON.stringify({ title, categorySlug: createSlug(title) }),
     });
 
     if (!res.ok) {

@@ -1,4 +1,4 @@
-.cardActionsWrapper {
+.articleActionsWrapper {
   display: flex;
   justify-content: space-between;
   max-width: 550px;
@@ -6,7 +6,7 @@
   margin-inline: auto;
   border-radius: 0.875rem;
 
-  .cardActionsLeft {
+  .articleActionsLeft {
     display: flex;
     gap: 0.5rem;
   }

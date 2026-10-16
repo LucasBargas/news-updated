@@ -8,7 +8,7 @@ interface ICardProps {
   news: INews;
 }
 
-export const Card = ({ news }: ICardProps) => {
+export const Article = ({ news }: ICardProps) => {
   const redirect = (value: string) => {
     return `/pesquisa?q=${encodeURIComponent(value)}`;
   };
@@ -24,8 +24,8 @@ export const Card = ({ news }: ICardProps) => {
       : "—";
 
   return (
-    <div className={styles.cardWrapper}>
-      <div className={styles.cardHeader}>
+    <div className={styles.articleWrapper}>
+      <div className={styles.articleHeader}>
         <span></span>
         <h3>
           <Link href={redirect(news.category)}>
@@ -35,11 +35,11 @@ export const Card = ({ news }: ICardProps) => {
         <h1>{news.title}</h1>
       </div>
 
-      <div className={styles.cardContent}>
+      <div className={styles.articleContent}>
         <p>{news.content}</p>
       </div>
 
-      <div className={styles.cardBottom}>
+      <div className={styles.articleBottom}>
         <ul>
           <li>
             <h4>Categoria:</h4>

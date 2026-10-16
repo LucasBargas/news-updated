@@ -12,7 +12,7 @@ const getCategoriesList = async () => {
     );
   }
 
-  const endpoint = `${supabaseUrl}/rest/v1/categories?select=*`;
+  const endpoint = `${supabaseUrl}/rest/v1/categories?select=*&order=created_at.asc`;
 
   try {
     const res = await fetch(endpoint, {

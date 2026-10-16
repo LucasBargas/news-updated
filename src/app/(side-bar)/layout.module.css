@@ -1,30 +1,37 @@
 .defaultPage {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+}
 
-  @media (max-width: 1030px) {
+@media (max-width: 1030px) {
+  .defaultPage {
     display: block;
   }
+}
 
-  & > :nth-child(1) {
-    grid-column: 1 / 5;
-    grid-row: 1 / 2;
-  }
+.headerArea {
+  grid-column: 1 / 5;
+  grid-row: 1 / 2;
+}
 
-  & > :nth-child(2) {
-    display: flex;
-    justify-content: flex-end;
-    grid-column: 1 / 5;
-    grid-row: 2 / 3;
-  }
+.orderArea {
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 1 / 5;
+  grid-row: 2 / 3;
+}
 
-  & > :nth-child(3) {
-    grid-row: 3 / 4;
-    grid-column: 1 / 2;
-  }
+.sidebarArea {
+  grid-row: 3 / 4;
+  grid-column: 1 / 2;
+}
 
-  main {
-    grid-row: 3 / 4;
-    grid-column: 2 / 5;
-  }
+.mainArea {
+  grid-row: 3 / 4;
+  grid-column: 2 / 5;
+}
+
+.mainAreaFull {
+  grid-row: 3 / 4 !important;
+  grid-column: 1 / 5 !important;
 }

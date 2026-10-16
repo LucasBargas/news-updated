@@ -1,4 +1,4 @@
-.cardWrapper {
+.articleWrapper {
   background: #fff;
   max-width: 550px;
   margin-inline: auto;
@@ -6,7 +6,7 @@
   box-shadow: var(--shadow);
   overflow: auto;
 
-  .cardHeader {
+  .articleHeader {
     border-bottom: 1px solid var(--background-color);
     padding: 2rem 2.5rem;
     position: relative;
@@ -38,7 +38,7 @@
     }
   }
 
-  .cardContent {
+  .articleContent {
     padding: 2rem 2.5rem 2.5rem 2.5rem;
 
     @media (max-width: 820px) {
@@ -51,7 +51,7 @@
     }
   }
 
-  .cardBottom {
+  .articleBottom {
     ul {
       display: flex;
       background: #eeeaea;

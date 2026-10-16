@@ -1,20 +1,7 @@
-import getNewsList from "@/src/actions/news-actions/get-news-list";
+import { Showcase } from "@/src/components/showcase";
 
 const FavoritesNews = async () => {
-  const data = await getNewsList("", "random", true);
-
-  if (!data) return null;
-
-  return (
-    <div>
-      {data.map((el) => (
-        <li key={el.id}>
-          <h3>{el.title}</h3>
-          <p>{el.content}</p>
-        </li>
-      ))}
-    </div>
-  );
+  return <Showcase isFavoritePage />;
 };
 
 export default FavoritesNews;

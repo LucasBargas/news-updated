@@ -1,5 +1,6 @@
 "use server";
 
+import { createSlug } from "@/src/helpers/create-slug";
 import { INews } from "../../types/news";
 
 const postNews = async (newsData: INews) => {
@@ -23,7 +24,10 @@ const postNews = async (newsData: INews) => {
         "Content-Type": "application/json",
         Prefer: "return=representation",
       },
-      body: JSON.stringify(newsData),
+      body: JSON.stringify({
+        ...newsData,
+        categorySlug: createSlug(newsData.category),
+      }),
     });
 
     if (!res.ok) {

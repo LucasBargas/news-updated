@@ -1,6 +1,6 @@
 import getNewsId from "@/src/actions/news-actions/get-news-id";
-import { Card } from "@/src/components/card";
-import { CardActions } from "@/src/components/card/card-actions";
+import { Article } from "@/src/components/article";
+import { ArticleActions } from "@/src/components/article/article-actions";
 import { notFound } from "next/navigation";
 
 interface IPageParams {
@@ -17,8 +17,8 @@ const NewsById = async ({ params }: IPageParams) => {
 
   return (
     <section className="container">
-      <Card news={data} />
-      <CardActions news={data} />
+      <Article news={data} />
+      <ArticleActions news={data} />
     </section>
   );
 };

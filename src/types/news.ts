@@ -6,4 +6,5 @@ export interface INews {
   category: string;
   author: string;
   isFavorite?: boolean;
+  categorySlug: string;
 }

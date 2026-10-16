@@ -32,6 +32,7 @@ const getNewsList = async (
       `content.ilike.*${trimmedTerm}*`,
       `author.ilike.*${trimmedTerm}*`,
       `category.ilike.*${trimmedTerm}*`,
+      `categorySlug.ilike.*${trimmedTerm}*`,
     ].join(",");
 
     endpoint += `&or=(${conditions})`;
