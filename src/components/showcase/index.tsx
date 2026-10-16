@@ -4,6 +4,7 @@ import getNewsList from "@/src/actions/news-actions/get-news-list";
 import { INews } from "@/src/types/news";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { LoadingSpinner } from "../loading-spinner";
 import { ShorterArticle } from "../shorter-article";
 import styles from "./styles.module.css";
 
@@ -36,7 +37,7 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
 
   return (
     <section className={!isSearchPage ? styles.showcase : ""}>
-      {isLoading && <p>Carregando notícias...</p>}
+      {isLoading && <LoadingSpinner />}
 
       {!isLoading && news?.length === 0 && <p>Nenhuma notícia encontrada.</p>}
 

@@ -34,10 +34,11 @@ export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
       normalizeCategory(category.title).includes(search),
     ) ?? [];
 
-  const visibleCategories =
+  const visibleCategories = (
     !categories || search.length < 3 || matchingCategories.length === 0
       ? (categories ?? [])
-      : matchingCategories;
+      : matchingCategories
+  ).filter((category) => category.title.trim().toLowerCase() !== "todas");
 
   const handleDelete = async (id: string) => {
     await deleteCategories(id);

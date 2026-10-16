@@ -36,21 +36,24 @@ export const Sidebar = () => {
       <h3>Navegue por categoria:</h3>
       <nav>
         <ul>
-          <li>
-            <Link
-              href={href}
-              className={pathname === href ? styles.active : ""}
-            >
-              Todas
-            </Link>
-          </li>
+          <li></li>
           {categories?.map((el) => {
             return (
               <li key={el.id}>
                 <Link
-                  href={getCategory(el.categorySlug).categoryHref}
+                  href={
+                    el.title === "Todas"
+                      ? href
+                      : getCategory(el.categorySlug).categoryHref
+                  }
                   className={
-                    getCategory(el.categorySlug).isActive ? styles.active : ""
+                    el.title === "Todas"
+                      ? pathname === href
+                        ? styles.active
+                        : ""
+                      : getCategory(el.categorySlug).isActive
+                        ? styles.active
+                        : ""
                   }
                 >
                   {el.title}
