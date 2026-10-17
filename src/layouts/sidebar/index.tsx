@@ -17,14 +17,14 @@ export const Sidebar = () => {
 
     return { categoryHref, isActive };
   };
+  if (!categories) return null;
 
   return (
     <aside className={styles.aside}>
       <h3>Navegue por categoria:</h3>
       <nav>
         <ul>
-          <li></li>
-          {categories?.map((el) => {
+          {categories.map((el) => {
             return (
               <li key={el.id}>
                 <Link
