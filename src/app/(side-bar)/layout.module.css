@@ -1,10 +1,8 @@
 .defaultPage {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-}
 
-@media (max-width: 1030px) {
-  .defaultPage {
+  @media (max-width: 1030px) {
     display: block;
   }
 }
@@ -32,6 +30,6 @@
 }
 
 .mainAreaFull {
-  grid-row: 3 / 4 !important;
-  grid-column: 1 / 5 !important;
+  grid-row: 3 / 4;
+  grid-column: 1 / 5;
 }

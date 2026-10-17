@@ -46,7 +46,7 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
       {!isLoading && news && news.length > 0 && (
         <React.Fragment>
           {news.map((el) => (
-            <ShorterArticle key={el.id} news={el} />
+            <ShorterArticle key={el.id} news={el} setNews={setNews} />
           ))}
         </React.Fragment>
       )}

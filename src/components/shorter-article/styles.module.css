@@ -12,12 +12,18 @@
   .shorterArticleHeader {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
+    gap: 2rem;
 
     a {
       padding-bottom: 0.75rem;
       font-size: 1.375rem;
       font-weight: 700;
       color: var(--text-color);
+    }
+
+    button {
+      background: transparent;
     }
   }
 

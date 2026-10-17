@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 const deleteNews = async (id: number | string) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -15,7 +14,7 @@ const deleteNews = async (id: number | string) => {
 
   const endpoint = `${supabaseUrl}/rest/v1/news?id=eq.${id}`;
 
-  let isDeleted = false;
+  // let isDeleted = false;
 
   try {
     const res = await fetch(endpoint, {
@@ -35,15 +34,15 @@ const deleteNews = async (id: number | string) => {
 
     revalidatePath("/home");
 
-    isDeleted = true;
+    // isDeleted = true;
   } catch (error) {
     console.error(`Erro na requisição deleteNews para o id ${id}:`, error);
     throw error;
   }
 
-  if (isDeleted) {
-    redirect("/");
-  }
+  // if (isDeleted) {
+  //   redirect("/");
+  // }
 };
 
 export default deleteNews;
