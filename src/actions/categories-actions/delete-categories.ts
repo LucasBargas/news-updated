@@ -1,8 +1,11 @@
 "use server";
 
+import { ICategories } from "@/src/types/categories";
 import { revalidatePath } from "next/cache";
+import deleteNews from "../news-actions/delete-news";
+import getNewsList from "../news-actions/get-news-list";
 
-const deleteCategories = async (id: string) => {
+const deleteCategories = async (category: ICategories) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -12,7 +15,7 @@ const deleteCategories = async (id: string) => {
     );
   }
 
-  const endpoint = `${supabaseUrl}/rest/v1/categories?id=eq.${id}`;
+  const endpoint = `${supabaseUrl}/rest/v1/categories?id=eq.${category.id}`;
 
   try {
     const res = await fetch(endpoint, {
@@ -30,10 +33,16 @@ const deleteCategories = async (id: string) => {
       throw new Error(`Erro ao deletar categoria: ${res.statusText}`);
     }
 
+    const news = await getNewsList(category.title);
+
+    news?.forEach(async (el) => {
+      await deleteNews(el);
+    });
+
     revalidatePath("/home");
   } catch (error) {
     console.error(
-      `Erro na requisição deleteCategories para o id ${id}:`,
+      `Erro na requisição deleteCategories para o id ${category.id}:`,
       error,
     );
     throw error;

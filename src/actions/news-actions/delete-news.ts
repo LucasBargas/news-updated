@@ -45,7 +45,7 @@ const deleteNews = async (news: INews) => {
       const category = categories?.find((item) => item.title === news.category);
 
       if (category?.id) {
-        await deleteCategories(category.id);
+        await deleteCategories(category);
       }
     }
 

@@ -1,8 +1,6 @@
 "use client";
 
 import deleteCategories from "@/src/actions/categories-actions/delete-categories";
-import deleteNews from "@/src/actions/news-actions/delete-news";
-import getNewsList from "@/src/actions/news-actions/get-news-list";
 import { normalizeCategory } from "@/src/helpers/normalize-category";
 import type { NewsFormData } from "@/src/helpers/zod";
 import type { ICategories } from "@/src/types/categories";
@@ -43,13 +41,7 @@ export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
   ).filter((category) => category.title.trim().toLowerCase() !== "todas");
 
   const handleDelete = async (category: ICategories) => {
-    await deleteCategories(category.id);
-
-    const news = await getNewsList(category.title);
-
-    news?.forEach(async (el) => {
-      await deleteNews(el);
-    });
+    await deleteCategories(category);
 
     setCategories((currentCategories) =>
       currentCategories

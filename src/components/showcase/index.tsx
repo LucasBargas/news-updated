@@ -2,9 +2,10 @@
 
 import deleteNews from "@/src/actions/news-actions/delete-news";
 import getNewsList from "@/src/actions/news-actions/get-news-list";
+import { useCategories } from "@/src/hooks/use-categories";
 import { useNewsOrder } from "@/src/hooks/use-news-order";
 import { INews } from "@/src/types/news";
-import { usePathname } from "next/navigation"; // 1. Importou o useRouter
+import { usePathname, useRouter } from "next/navigation"; // 1. Importou o useRouter
 import React from "react";
 import { LoadingSpinner } from "../loading-spinner";
 import { ShorterArticle } from "../shorter-article";
@@ -21,6 +22,8 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
   const pathname = usePathname();
   const isSearchPage = pathname.startsWith("/pesquisa");
   const { order } = useNewsOrder();
+  const { setCategories } = useCategories();
+  const router = useRouter();
 
   const handleDeleteNews = async (newsToDelete: INews) => {
     if (!newsToDelete.id) return;
@@ -30,17 +33,24 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
     try {
       await deleteNews(newsToDelete);
 
-      const remainingNewsInSameCategory = news?.filter(
-        (item) =>
-          item.categorySlug === newsToDelete.categorySlug &&
-          item.id !== newsToDelete.id,
-      );
+      if (pathname.includes("/home")) {
+        const remainingNewsInSameCategory = news?.filter(
+          (item) =>
+            item.categorySlug === newsToDelete.categorySlug &&
+            item.id !== newsToDelete.id,
+        );
 
-      const count = remainingNewsInSameCategory?.length ?? 0;
+        const count = remainingNewsInSameCategory?.length ?? 0;
 
-      if (count === 0) {
-        window.location.href = isFavoritePage ? "/noticias-favoritas" : "/home";
-        return;
+        if (count === 0) {
+          setCategories((prev) => {
+            if (!prev) return null;
+            return prev.filter((el) => el.title !== newsToDelete.category);
+          });
+
+          router.push(isFavoritePage ? "/noticias-favoritas" : "/home");
+          return;
+        }
       }
 
       setNews(
@@ -56,6 +66,7 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
   React.useEffect(() => {
     const fetchNews = async () => {
       setIsLoading(true);
+
       try {
         const data = await getNewsList(param, order, isFavoritePage);
         setNews(data);

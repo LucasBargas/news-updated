@@ -1,6 +1,7 @@
 "use client";
 
 import { PageHeader } from "@/src/components/page-header";
+import { CategoriesProvider } from "@/src/hooks/use-categories";
 import { NewsOrderProvider } from "@/src/hooks/use-news-order";
 import { OrderControl } from "@/src/layouts/order-control";
 import { Sidebar } from "@/src/layouts/sidebar";
@@ -17,29 +18,31 @@ export default function SideBarLayout({
 
   return (
     <NewsOrderProvider>
-      <div className="container">
-        <div className={styles.defaultPage}>
-          <div className={styles.headerArea}>
-            <PageHeader />
-          </div>
-
-          <div className={styles.orderArea}>
-            <OrderControl />
-          </div>
-
-          {!isSearchPage && (
-            <div className={styles.sidebarArea}>
-              <Sidebar />
+      <CategoriesProvider>
+        <div className="container">
+          <div className={styles.defaultPage}>
+            <div className={styles.headerArea}>
+              <PageHeader />
             </div>
-          )}
 
-          <main
-            className={isSearchPage ? styles.mainAreaFull : styles.mainArea}
-          >
-            {children}
-          </main>
+            <div className={styles.orderArea}>
+              <OrderControl />
+            </div>
+
+            {!isSearchPage && (
+              <div className={styles.sidebarArea}>
+                <Sidebar />
+              </div>
+            )}
+
+            <main
+              className={isSearchPage ? styles.mainAreaFull : styles.mainArea}
+            >
+              {children}
+            </main>
+          </div>
         </div>
-      </div>
+      </CategoriesProvider>
     </NewsOrderProvider>
   );
 }

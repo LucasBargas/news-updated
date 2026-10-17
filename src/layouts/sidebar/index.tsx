@@ -1,17 +1,13 @@
 "use client";
 
-import getCategoriesList from "@/src/actions/categories-actions/get-categories-list";
-import { ICategories } from "@/src/types/categories";
+import { useCategories } from "@/src/hooks/use-categories";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 import styles from "./styles.module.css";
 
 export const Sidebar = () => {
   const pathname = usePathname();
-  const [categories, setCategories] = React.useState<null | ICategories[]>(
-    null,
-  );
+  const { categories } = useCategories();
 
   const href = pathname.includes("/home") ? "/home" : "/noticias-favoritas";
 
@@ -21,15 +17,6 @@ export const Sidebar = () => {
 
     return { categoryHref, isActive };
   };
-
-  React.useEffect(() => {
-    const fetchCategories = async () => {
-      const data = await getCategoriesList();
-      setCategories(data);
-    };
-
-    fetchCategories();
-  }, []);
 
   return (
     <aside className={styles.aside}>
