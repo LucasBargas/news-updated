@@ -1,8 +1,12 @@
 "use server";
 
+import { INews } from "@/src/types/news";
 import { revalidatePath } from "next/cache";
+import deleteCategories from "../categories-actions/delete-categories";
+import getCategoriesList from "../categories-actions/get-categories-list";
+import getNewsList from "./get-news-list";
 
-const deleteNews = async (id: number | string) => {
+const deleteNews = async (news: INews) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
@@ -12,9 +16,11 @@ const deleteNews = async (id: number | string) => {
     );
   }
 
-  const endpoint = `${supabaseUrl}/rest/v1/news?id=eq.${id}`;
+  if (!news.id) {
+    throw new Error("ID da notícia não informado.");
+  }
 
-  // let isDeleted = false;
+  const endpoint = `${supabaseUrl}/rest/v1/news?id=eq.${news.id}`;
 
   try {
     const res = await fetch(endpoint, {
@@ -32,17 +38,22 @@ const deleteNews = async (id: number | string) => {
       throw new Error(`Erro ao deletar notícia: ${res.statusText}`);
     }
 
-    revalidatePath("/home");
+    const count = (await getNewsList(news.category))?.length ?? 0;
 
-    // isDeleted = true;
+    if (count === 0) {
+      const categories = await getCategoriesList();
+      const category = categories?.find((item) => item.title === news.category);
+
+      if (category?.id) {
+        await deleteCategories(category.id);
+      }
+    }
+
+    revalidatePath("/home");
   } catch (error) {
-    console.error(`Erro na requisição deleteNews para o id ${id}:`, error);
+    console.error(`Erro na requisição deleteNews para o id ${news.id}:`, error);
     throw error;
   }
-
-  // if (isDeleted) {
-  //   redirect("/");
-  // }
 };
 
 export default deleteNews;

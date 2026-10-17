@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import styles from "./styles.module.css";
 
@@ -21,6 +22,7 @@ interface IArticleActionsProps {
 }
 
 export const ArticleActions = ({ news }: IArticleActionsProps) => {
+  const router = useRouter();
   const [isFavorite, setIsFavorite] = React.useState(news.isFavorite);
 
   const handleEditNews = async () => {
@@ -35,7 +37,14 @@ export const ArticleActions = ({ news }: IArticleActionsProps) => {
   };
 
   const handleDeleteNews = async () => {
-    if (news.id) await deleteNews(news.id);
+    if (!news.id) return;
+
+    try {
+      await deleteNews(news);
+      router.push("/home");
+    } catch (error) {
+      console.error("Erro ao deletar notícia:", error);
+    }
   };
 
   return (

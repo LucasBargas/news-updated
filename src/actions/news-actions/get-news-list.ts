@@ -6,7 +6,7 @@ export type OrderOption = "recent" | "oldest" | "random";
 
 const getNewsList = async (
   searchTerm?: string,
-  orderBy: OrderOption = "random",
+  orderBy: OrderOption = "recent",
   favoritesOnly: boolean = false,
 ) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

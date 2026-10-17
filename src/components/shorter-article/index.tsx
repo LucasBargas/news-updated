@@ -69,7 +69,7 @@ export const ShorterArticle = ({
         </ul>
 
         <div className={styles.shorterArticleActions}>
-          <Link href={`/noticia/${news.id}`}>
+          <Link href={`/noticia/${news.id}`} title="Visualizar notícia">
             <FontAwesomeIcon icon={faEye} />
           </Link>
           <Link href={`/editar-noticia/${news.id}`} title="Editar notícia">

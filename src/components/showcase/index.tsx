@@ -4,7 +4,7 @@ import deleteNews from "@/src/actions/news-actions/delete-news";
 import getNewsList from "@/src/actions/news-actions/get-news-list";
 import { useNewsOrder } from "@/src/hooks/use-news-order";
 import { INews } from "@/src/types/news";
-import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation"; // 1. Importou o useRouter
 import React from "react";
 import { LoadingSpinner } from "../loading-spinner";
 import { ShorterArticle } from "../shorter-article";
@@ -28,7 +28,21 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
     setIsLoading(true);
 
     try {
-      await deleteNews(newsToDelete.id);
+      await deleteNews(newsToDelete);
+
+      const remainingNewsInSameCategory = news?.filter(
+        (item) =>
+          item.categorySlug === newsToDelete.categorySlug &&
+          item.id !== newsToDelete.id,
+      );
+
+      const count = remainingNewsInSameCategory?.length ?? 0;
+
+      if (count === 0) {
+        window.location.href = isFavoritePage ? "/noticias-favoritas" : "/home";
+        return;
+      }
+
       setNews(
         (prev) => prev?.filter((item) => item.id !== newsToDelete.id) ?? null,
       );
@@ -59,7 +73,13 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
     <section className={!isSearchPage ? styles.showcase : ""}>
       {isLoading && <LoadingSpinner />}
 
-      {!isLoading && news?.length === 0 && <p>Nenhuma notícia encontrada.</p>}
+      {!isLoading && news?.length === 0 && !isFavoritePage && (
+        <p>Nenhuma notícia encontrada.</p>
+      )}
+
+      {!isLoading && news?.length === 0 && isFavoritePage && (
+        <p>Nenhuma notícia favoritada nesta categoria.</p>
+      )}
 
       {!isLoading && news && news.length > 0 && (
         <React.Fragment>

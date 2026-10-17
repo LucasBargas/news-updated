@@ -11,7 +11,7 @@ import styles from "./styles.module.css";
 
 export const OrderControl = () => {
   const [showOrderList, setShowOrderList] = React.useState(false);
-  const [category, setCategory] = React.useState("Aleatórias");
+  const [category, setCategory] = React.useState("Mais recentes");
   const { setOrder } = useNewsOrder();
   const pathname = usePathname();
   const orderControlRef = React.useRef<HTMLElement | null>(null);
@@ -23,8 +23,8 @@ export const OrderControl = () => {
   };
 
   React.useEffect(() => {
-    setOrder("random");
-    setCategory("Aleatórias");
+    setOrder("recent");
+    setCategory("Mais recentes");
   }, [pathname, setOrder]);
 
   React.useEffect(() => {

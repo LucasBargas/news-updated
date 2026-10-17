@@ -1,6 +1,8 @@
 "use client";
 
 import deleteCategories from "@/src/actions/categories-actions/delete-categories";
+import deleteNews from "@/src/actions/news-actions/delete-news";
+import getNewsList from "@/src/actions/news-actions/get-news-list";
 import { normalizeCategory } from "@/src/helpers/normalize-category";
 import type { NewsFormData } from "@/src/helpers/zod";
 import type { ICategories } from "@/src/types/categories";
@@ -40,12 +42,18 @@ export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
       : matchingCategories
   ).filter((category) => category.title.trim().toLowerCase() !== "todas");
 
-  const handleDelete = async (id: string) => {
-    await deleteCategories(id);
+  const handleDelete = async (category: ICategories) => {
+    await deleteCategories(category.id);
+
+    const news = await getNewsList(category.title);
+
+    news?.forEach(async (el) => {
+      await deleteNews(el);
+    });
 
     setCategories((currentCategories) =>
       currentCategories
-        ? currentCategories.filter((category) => category.id !== id)
+        ? currentCategories.filter((el) => el.id !== category.id)
         : currentCategories,
     );
   };
@@ -94,7 +102,7 @@ export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
               <div className={styles.formsCategoriesListActions}>
                 <button
                   type="button"
-                  onClick={() => handleDelete(category.id)}
+                  onClick={() => handleDelete(category)}
                   title="Deletar categoria"
                 >
                   <FontAwesomeIcon icon={faTrashCan} />

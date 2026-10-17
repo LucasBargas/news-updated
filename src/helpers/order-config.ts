@@ -7,15 +7,15 @@ export interface IOrder {
 
 export const orderList: IOrder[] = [
   {
-    title: "Aleatórias",
-    ref: "random",
-  },
-  {
     title: "Mais recentes",
     ref: "recent",
   },
   {
     title: "Mais antigas",
     ref: "oldest",
+  },
+  {
+    title: "Aleatórias",
+    ref: "random",
   },
 ];
