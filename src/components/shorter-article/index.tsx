@@ -1,4 +1,3 @@
-import deleteNews from "@/src/actions/news-actions/delete-news";
 import updateNews from "@/src/actions/news-actions/update-news";
 import { INews } from "@/src/types/news";
 import {
@@ -17,16 +16,20 @@ import styles from "./styles.module.css";
 
 interface IShorterArticleProps {
   news: INews;
-  setNews: React.Dispatch<React.SetStateAction<INews[] | null>>;
+  handleDeleteNews: (news: INews) => Promise<void>;
 }
 
-export const ShorterArticle = ({ news, setNews }: IShorterArticleProps) => {
+export const ShorterArticle = ({
+  news,
+  handleDeleteNews,
+}: IShorterArticleProps) => {
   const [isFavorite, setIsFavorite] = React.useState(news.isFavorite);
+
   const createdAt = news.created_at
     ? new Date(news.created_at).toLocaleDateString("pt-BR")
     : "Data indisponível";
 
-  const handleEditNews = async () => {
+  const handleFavoriteNews = async () => {
     setIsFavorite(!isFavorite);
 
     if (news.id) {
@@ -37,20 +40,13 @@ export const ShorterArticle = ({ news, setNews }: IShorterArticleProps) => {
     }
   };
 
-  const handleDeleteNews = async () => {
-    if (!news.id) return;
-
-    await deleteNews(news.id);
-    setNews((prev) => prev && prev.filter((item) => item.id !== news.id));
-  };
-
   return (
     <article className={styles.shorterArticle}>
       <div className={styles.shorterArticleHeader}>
         <Link href={`/noticia/${news.id}`}>{news.title}</Link>
         <button
           type="button"
-          onClick={handleEditNews}
+          onClick={handleFavoriteNews}
           title={isFavorite ? "Remover favorito" : "Favoritar"}
         >
           <FontAwesomeIcon icon={isFavorite ? faHeartSolid : faHeartRegular} />
@@ -81,7 +77,7 @@ export const ShorterArticle = ({ news, setNews }: IShorterArticleProps) => {
           </Link>
           <button
             type="button"
-            onClick={handleDeleteNews}
+            onClick={() => handleDeleteNews(news)}
             title="Deletar notícia"
           >
             <FontAwesomeIcon icon={faTrashCan} />

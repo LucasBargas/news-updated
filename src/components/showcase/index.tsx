@@ -1,5 +1,6 @@
 "use client";
 
+import deleteNews from "@/src/actions/news-actions/delete-news";
 import getNewsList from "@/src/actions/news-actions/get-news-list";
 import { useNewsOrder } from "@/src/hooks/use-news-order";
 import { INews } from "@/src/types/news";
@@ -20,6 +21,23 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
   const pathname = usePathname();
   const isSearchPage = pathname.startsWith("/pesquisa");
   const { order } = useNewsOrder();
+
+  const handleDeleteNews = async (newsToDelete: INews) => {
+    if (!newsToDelete.id) return;
+
+    setIsLoading(true);
+
+    try {
+      await deleteNews(newsToDelete.id);
+      setNews(
+        (prev) => prev?.filter((item) => item.id !== newsToDelete.id) ?? null,
+      );
+    } catch (error) {
+      console.error("Erro ao deletar notícia:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   React.useEffect(() => {
     const fetchNews = async () => {
@@ -46,7 +64,11 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
       {!isLoading && news && news.length > 0 && (
         <React.Fragment>
           {news.map((el) => (
-            <ShorterArticle key={el.id} news={el} setNews={setNews} />
+            <ShorterArticle
+              key={el.id}
+              news={el}
+              handleDeleteNews={handleDeleteNews}
+            />
           ))}
         </React.Fragment>
       )}
