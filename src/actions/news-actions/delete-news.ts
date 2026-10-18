@@ -44,9 +44,7 @@ const deleteNews = async (news: INews) => {
       const categories = await getCategoriesList();
       const category = categories?.find((item) => item.title === news.category);
 
-      if (category?.id) {
-        await deleteCategories(category);
-      }
+      if (category) await deleteCategories(category);
     }
 
     revalidatePath("/home");

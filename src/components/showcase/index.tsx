@@ -1,8 +1,8 @@
 "use client";
 
 import deleteNews from "@/src/actions/news-actions/delete-news";
-import getNewsList from "@/src/actions/news-actions/get-news-list";
 import { useCategories } from "@/src/hooks/use-categories";
+import { useNews } from "@/src/hooks/use-news";
 import { useNewsOrder } from "@/src/hooks/use-news-order";
 import { INews } from "@/src/types/news";
 import { usePathname, useRouter } from "next/navigation"; // 1. Importou o useRouter
@@ -17,68 +17,61 @@ interface IShowcaseProps {
 }
 
 export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
-  const [news, setNews] = React.useState<null | INews[]>(null);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const { news, setNews, isLoading, setIsLoading, fetchNews } = useNews();
   const pathname = usePathname();
   const isSearchPage = pathname.startsWith("/pesquisa");
   const { order } = useNewsOrder();
   const { setCategories } = useCategories();
   const router = useRouter();
 
-  const handleDeleteNews = async (newsToDelete: INews) => {
-    if (!newsToDelete.id) return;
-
+  const removeNewsAPI = async (newsToDelete: INews) => {
     setIsLoading(true);
 
     try {
       await deleteNews(newsToDelete);
-
-      if (pathname.includes("/home")) {
-        const remainingNewsInSameCategory = news?.filter(
-          (item) =>
-            item.categorySlug === newsToDelete.categorySlug &&
-            item.id !== newsToDelete.id,
-        );
-
-        const count = remainingNewsInSameCategory?.length ?? 0;
-
-        if (count === 0) {
-          setCategories((prev) => {
-            if (!prev) return null;
-            return prev.filter((el) => el.title !== newsToDelete.category);
-          });
-
-          router.push(isFavoritePage ? "/noticias-favoritas" : "/home");
-          return;
-        }
-      }
-
-      setNews(
-        (prev) => prev?.filter((item) => item.id !== newsToDelete.id) ?? null,
-      );
+      return true;
     } catch (error) {
       console.error("Erro ao deletar notícia:", error);
+      return false;
     } finally {
       setIsLoading(false);
     }
   };
 
-  React.useEffect(() => {
-    const fetchNews = async () => {
-      setIsLoading(true);
+  const handleDeleteNews = async (newsToDelete: INews) => {
+    if (!newsToDelete.id) return;
 
-      try {
-        const data = await getNewsList(param, order, isFavoritePage);
-        setNews(data);
-      } catch (error) {
-        console.error("Erro ao buscar notícias:", error);
-      } finally {
-        setIsLoading(false);
+    const success = await removeNewsAPI(newsToDelete);
+    if (!success) return;
+
+    if (pathname.includes("/home")) {
+      const remainingNewsInSameCategory = news?.filter(
+        (item) =>
+          item.categorySlug === newsToDelete.categorySlug &&
+          item.id !== newsToDelete.id,
+      );
+
+      const count = remainingNewsInSameCategory?.length ?? 0;
+
+      if (count === 0) {
+        setCategories((prev) => {
+          if (!prev) return null;
+          return prev.filter((el) => el.title !== newsToDelete.category);
+        });
+
+        router.push(isFavoritePage ? "/noticias-favoritas" : "/home");
+        return;
       }
-    };
+    }
 
-    fetchNews();
-  }, [param, isFavoritePage, order]);
+    setNews(
+      (prev) => prev?.filter((item) => item.id !== newsToDelete.id) ?? null,
+    );
+  };
+
+  React.useEffect(() => {
+    fetchNews(param ?? "", order, isFavoritePage);
+  }, [fetchNews, isFavoritePage, order, param]);
 
   return (
     <section className={!isSearchPage ? styles.showcase : ""}>

@@ -32,7 +32,7 @@ export const CategoriesProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    async function fetchCategories() {
+    const fetchCategories = async () => {
       try {
         setIsLoading(true);
         const data = await getCategoriesList();
@@ -42,7 +42,7 @@ export const CategoriesProvider = ({ children }: { children: ReactNode }) => {
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
     fetchCategories();
   }, [pathname]);
