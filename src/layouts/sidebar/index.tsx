@@ -8,7 +8,6 @@ import styles from "./styles.module.css";
 export const Sidebar = () => {
   const pathname = usePathname();
   const { categories } = useCategories();
-
   const href = pathname.includes("/home") ? "/home" : "/noticias-favoritas";
 
   const getCategory = (categorySlug: string) => {
@@ -24,23 +23,21 @@ export const Sidebar = () => {
       <h3>Navegue por categoria:</h3>
       <nav>
         <ul>
+          <li>
+            <Link
+              href={href}
+              className={pathname === href ? styles.active : ""}
+            >
+              Todas
+            </Link>
+          </li>
           {categories.map((el) => {
             return (
               <li key={el.id}>
                 <Link
-                  href={
-                    el.title === "Todas"
-                      ? href
-                      : getCategory(el.categorySlug!).categoryHref
-                  }
+                  href={getCategory(el.categorySlug!).categoryHref}
                   className={
-                    el.title === "Todas"
-                      ? pathname === href
-                        ? styles.active
-                        : ""
-                      : getCategory(el.categorySlug!).isActive
-                        ? styles.active
-                        : ""
+                    getCategory(el.categorySlug!).isActive ? styles.active : ""
                   }
                 >
                   {el.title}
@@ -50,6 +47,12 @@ export const Sidebar = () => {
           })}
         </ul>
       </nav>
+
+      {categories.length === 1 && (
+        <Link href="/cadastrar-noticia">
+          Clique aqui e cadastre uma notícia e uma categoria
+        </Link>
+      )}
     </aside>
   );
 };

@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation"; // 1. Importou o useRo
 import React from "react";
 import { LoadingSpinner } from "../loading-spinner";
 import { ShorterArticle } from "../shorter-article";
+import { ShowcaseMessage } from "./showcase-message";
 import styles from "./styles.module.css";
 
 interface IShowcaseProps {
@@ -26,6 +27,7 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
 
   const removeNewsAPI = async (newsToDelete: INews) => {
     setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 400));
 
     try {
       await deleteNews(newsToDelete);
@@ -44,24 +46,22 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
     const success = await removeNewsAPI(newsToDelete);
     if (!success) return;
 
-    if (pathname.includes("/home")) {
-      const remainingNewsInSameCategory = news?.filter(
-        (item) =>
-          item.categorySlug === newsToDelete.categorySlug &&
-          item.id !== newsToDelete.id,
-      );
+    const remainingNewsInSameCategory = news?.filter(
+      (item) =>
+        item.categorySlug === newsToDelete.categorySlug &&
+        item.id !== newsToDelete.id,
+    );
 
-      const count = remainingNewsInSameCategory?.length ?? 0;
+    const count = remainingNewsInSameCategory?.length ?? 0;
 
-      if (count === 0) {
-        setCategories((prev) => {
-          if (!prev) return null;
-          return prev.filter((el) => el.title !== newsToDelete.category);
-        });
+    if (count === 0) {
+      setCategories((prev) => {
+        if (!prev) return null;
+        return prev.filter((el) => el.title !== newsToDelete.category);
+      });
 
+      if (!isSearchPage)
         router.push(isFavoritePage ? "/noticias-favoritas" : "/home");
-        return;
-      }
     }
 
     setNews(
@@ -77,12 +77,8 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
     <section className={!isSearchPage ? styles.showcase : ""}>
       {isLoading && <LoadingSpinner />}
 
-      {!isLoading && news?.length === 0 && !isFavoritePage && (
-        <p>Nenhuma notícia encontrada.</p>
-      )}
-
-      {!isLoading && news?.length === 0 && isFavoritePage && (
-        <p>Nenhuma notícia favoritada nesta categoria.</p>
+      {!isLoading && news?.length === 0 && (
+        <ShowcaseMessage isFavoritePage={isFavoritePage} pathname={pathname} />
       )}
 
       {!isLoading && news && news.length > 0 && (
@@ -91,7 +87,10 @@ export const Showcase = ({ param, isFavoritePage = false }: IShowcaseProps) => {
             <ShorterArticle
               key={el.id}
               news={el}
+              setNews={setNews}
+              isFavoritePage={isFavoritePage}
               handleDeleteNews={handleDeleteNews}
+              setIsLoading={setIsLoading}
             />
           ))}
         </React.Fragment>

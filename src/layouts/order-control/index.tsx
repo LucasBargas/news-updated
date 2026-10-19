@@ -2,6 +2,7 @@
 "use client";
 
 import { IOrder, orderList } from "@/src/helpers/order-config";
+import { useNews } from "@/src/hooks/use-news";
 import { useNewsOrder } from "@/src/hooks/use-news-order";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +11,7 @@ import React from "react";
 import styles from "./styles.module.css";
 
 export const OrderControl = () => {
+  const { news } = useNews();
   const [showOrderList, setShowOrderList] = React.useState(false);
   const [category, setCategory] = React.useState("Mais recentes");
   const { setOrder } = useNewsOrder();
@@ -46,33 +48,38 @@ export const OrderControl = () => {
   }, [showOrderList]);
 
   return (
-    <section className={styles.orderControl} ref={orderControlRef}>
-      <div>
-        Ordenar notícias por:{" "}
-        <span onClick={() => setShowOrderList((show) => !show)}>
-          {category}{" "}
-          <FontAwesomeIcon
-            icon={faChevronDown}
-            className={`${styles.chevron} ${
-              showOrderList ? styles.chevronOpen : ""
-            }`}
-          />
-        </span>
-      </div>
+    <section
+      className={`${styles.orderControl} ${news && news.length < 2 ? undefined : styles.active}`}
+      ref={orderControlRef}
+    >
+      <React.Fragment>
+        <div>
+          Ordenar notícias por:{" "}
+          <span onClick={() => setShowOrderList((show) => !show)}>
+            {category}{" "}
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              className={`${styles.chevron} ${
+                showOrderList ? styles.chevronOpen : ""
+              }`}
+            />
+          </span>
+        </div>
 
-      <nav className={showOrderList ? styles.active : ""}>
-        <ul>
-          {orderList.map((el) => (
-            <li
-              onClick={() => handleClick(el)}
-              key={el.ref}
-              className={category === el.title ? styles.active : ""}
-            >
-              {el.title}
-            </li>
-          ))}
-        </ul>
-      </nav>
+        <nav className={showOrderList ? styles.active : ""}>
+          <ul>
+            {orderList.map((el) => (
+              <li
+                onClick={() => handleClick(el)}
+                key={el.ref}
+                className={category === el.title ? styles.active : ""}
+              >
+                {el.title}
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </React.Fragment>
     </section>
   );
 };

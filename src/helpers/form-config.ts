@@ -1,4 +1,4 @@
-import { NewsFormData } from "./zod"; // Ajuste o caminho do seu Zod se precisar
+import { NewsFormData } from "./zod";
 
 export interface IFormConfig {
   name: keyof NewsFormData;

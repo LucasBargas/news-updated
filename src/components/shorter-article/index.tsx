@@ -17,33 +17,50 @@ import styles from "./styles.module.css";
 interface IShorterArticleProps {
   news: INews;
   handleDeleteNews: (news: INews) => Promise<void>;
+  setNews: React.Dispatch<React.SetStateAction<INews[] | null>>;
+  isFavoritePage: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ShorterArticle = ({
-  news,
-  handleDeleteNews,
-}: IShorterArticleProps) => {
-  const [isFavorite, setIsFavorite] = React.useState(news.isFavorite);
+export const ShorterArticle = (props: IShorterArticleProps) => {
+  const [isFavorite, setIsFavorite] = React.useState(props.news.isFavorite);
 
-  const createdAt = news.created_at
-    ? new Date(news.created_at).toLocaleDateString("pt-BR")
+  const createdAt = props.news.created_at
+    ? new Date(props.news.created_at).toLocaleDateString("pt-BR")
     : "Data indisponível";
 
   const handleFavoriteNews = async () => {
-    setIsFavorite(!isFavorite);
+    const nextFavoriteState = !isFavorite;
+    setIsFavorite(nextFavoriteState);
 
-    if (news.id) {
-      await updateNews(news.id, {
-        ...news,
-        isFavorite: !isFavorite,
-      });
+    if (props.isFavoritePage && !nextFavoriteState) {
+      props.setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 400));
+
+      props.setNews(
+        (prev) => prev?.filter((item) => item.id !== props.news.id) ?? null,
+      );
+
+      props.setIsLoading(false);
+    }
+
+    if (props.news.id) {
+      try {
+        await updateNews(props.news.id, {
+          ...props.news,
+          isFavorite: nextFavoriteState,
+        });
+      } catch (error) {
+        console.error("Erro ao atualizar favorito no banco de dados:", error);
+        setIsFavorite(!nextFavoriteState);
+      }
     }
   };
 
   return (
     <article className={styles.shorterArticle}>
       <div className={styles.shorterArticleHeader}>
-        <Link href={`/noticia/${news.id}`}>{news.title}</Link>
+        <Link href={`/noticia/${props.news.id}`}>{props.news.title}</Link>
         <button
           type="button"
           onClick={handleFavoriteNews}
@@ -57,11 +74,15 @@ export const ShorterArticle = ({
         <ul>
           <li>
             <strong>Categoria:</strong>{" "}
-            <Link href={`/pesquisa?q=${news.category}`}>{news.category}</Link>
+            <Link href={`/pesquisa?q=${props.news.category}`}>
+              {props.news.category}
+            </Link>
           </li>
           <li>
             <strong>Autoria:</strong>{" "}
-            <Link href={`/pesquisa?q=${news.author}`}>{news.author}</Link>
+            <Link href={`/pesquisa?q=${props.news.author}`}>
+              {props.news.author}
+            </Link>
           </li>
           <li>
             <strong>Postado em:</strong> <span>{createdAt}</span>
@@ -69,15 +90,18 @@ export const ShorterArticle = ({
         </ul>
 
         <div className={styles.shorterArticleActions}>
-          <Link href={`/noticia/${news.id}`} title="Visualizar notícia">
+          <Link href={`/noticia/${props.news.id}`} title="Visualizar notícia">
             <FontAwesomeIcon icon={faEye} />
           </Link>
-          <Link href={`/editar-noticia/${news.id}`} title="Editar notícia">
+          <Link
+            href={`/editar-noticia/${props.news.id}`}
+            title="Editar notícia"
+          >
             <FontAwesomeIcon icon={faPencil} />
           </Link>
           <button
             type="button"
-            onClick={() => handleDeleteNews(news)}
+            onClick={() => props.handleDeleteNews(props.news)}
             title="Deletar notícia"
           >
             <FontAwesomeIcon icon={faTrashCan} />

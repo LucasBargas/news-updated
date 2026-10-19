@@ -1,0 +1,26 @@
+.messageArea {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.75rem;
+
+  h2 {
+    font-size: 4rem;
+  }
+
+  a {
+    display: block;
+    background: var(--text-color);
+    color: var(--light-color);
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    opacity: 0.8;
+    transition: 0.3s;
+    font-weight: 700;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

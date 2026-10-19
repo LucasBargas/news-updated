@@ -2,6 +2,13 @@
   display: flex;
   padding-bottom: 1.5rem;
   position: relative;
+  opacity: 0;
+  pointer-events: none;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
 
   span {
     cursor: pointer;
