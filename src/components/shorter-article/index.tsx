@@ -1,4 +1,5 @@
 import updateNews from "@/src/actions/news-actions/update-news";
+import { useNews } from "@/src/hooks/use-news";
 import { INews } from "@/src/types/news";
 import {
   faEye,
@@ -17,12 +18,11 @@ import styles from "./styles.module.css";
 interface IShorterArticleProps {
   news: INews;
   handleDeleteNews: (news: INews) => Promise<void>;
-  setNews: React.Dispatch<React.SetStateAction<INews[] | null>>;
   isFavoritePage: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ShorterArticle = (props: IShorterArticleProps) => {
+  const { setNews, setIsLoading } = useNews();
   const [isFavorite, setIsFavorite] = React.useState(props.news.isFavorite);
 
   const createdAt = props.news.created_at
@@ -34,14 +34,14 @@ export const ShorterArticle = (props: IShorterArticleProps) => {
     setIsFavorite(nextFavoriteState);
 
     if (props.isFavoritePage && !nextFavoriteState) {
-      props.setIsLoading(true);
+      setIsLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 400));
 
-      props.setNews(
+      setNews(
         (prev) => prev?.filter((item) => item.id !== props.news.id) ?? null,
       );
 
-      props.setIsLoading(false);
+      setIsLoading(false);
     }
 
     if (props.news.id) {

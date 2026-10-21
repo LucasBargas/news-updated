@@ -1,4 +1,4 @@
-import { Showcase } from "@/src/components/showcase";
+import { Showcase } from "@/src/layouts/showcase";
 
 interface IPageParams {
   params: Promise<{
@@ -9,7 +9,7 @@ interface IPageParams {
 const Categories = async ({ params }: IPageParams) => {
   const { category } = await params;
 
-  return <Showcase param={category} isFavoritePage />;
+  return <Showcase param={category} />;
 };
 
 export default Categories;

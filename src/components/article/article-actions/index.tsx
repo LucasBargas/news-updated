@@ -1,7 +1,7 @@
 "use client";
 
-import deleteNews from "@/src/actions/news-actions/delete-news";
 import updateNews from "@/src/actions/news-actions/update-news";
+import { useModal } from "@/src/hooks/use-modal";
 import { INews } from "@/src/types/news";
 import {
   faHeart as faHeartRegular,
@@ -13,7 +13,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React from "react";
 import styles from "./styles.module.css";
 
@@ -22,8 +21,8 @@ interface IArticleActionsProps {
 }
 
 export const ArticleActions = ({ news }: IArticleActionsProps) => {
-  const router = useRouter();
   const [isFavorite, setIsFavorite] = React.useState(news.isFavorite);
+  const { setRef, setModal } = useModal();
 
   const handleEditNews = async () => {
     setIsFavorite(!isFavorite);
@@ -40,8 +39,8 @@ export const ArticleActions = ({ news }: IArticleActionsProps) => {
     if (!news.id) return;
 
     try {
-      await deleteNews(news);
-      router.push("/home");
+      setRef({ ...news, action: "news-delete" });
+      setModal(true);
     } catch (error) {
       console.error("Erro ao deletar notícia:", error);
     }

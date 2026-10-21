@@ -1,7 +1,7 @@
 "use client";
 
-import { PageHeader } from "@/src/components/page-header";
 import { OrderControl } from "@/src/layouts/order-control";
+import { PageHeader } from "@/src/layouts/page-header";
 import { Sidebar } from "@/src/layouts/sidebar";
 import { usePathname } from "next/navigation";
 import styles from "./layout.module.css";

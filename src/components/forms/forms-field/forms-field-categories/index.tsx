@@ -1,8 +1,8 @@
 "use client";
 
-import deleteCategories from "@/src/actions/categories-actions/delete-categories";
 import { normalizeCategory } from "@/src/helpers/normalize-category";
 import type { NewsFormData } from "@/src/helpers/zod";
+import { useModal } from "@/src/hooks/use-modal";
 import type { ICategories } from "@/src/types/categories";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
@@ -21,6 +21,7 @@ export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
   const [categories, setCategories] = React.useState<ICategories[] | null>(
     props.categoriesList ?? null,
   );
+  const { setRef, setModal } = useModal();
 
   const selectedCategory = useWatch({
     control,
@@ -41,13 +42,20 @@ export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
   ).filter((category) => category.title.trim().toLowerCase() !== "todas");
 
   const handleDelete = async (category: ICategories) => {
-    await deleteCategories(category);
+    // await deleteCategories(category);
+    setRef({ ...category, action: "category-delete" });
+    setModal(true);
 
     setCategories((currentCategories) =>
       currentCategories
         ? currentCategories.filter((el) => el.id !== category.id)
         : currentCategories,
     );
+  };
+
+  const handleEditCategory = (category: ICategories) => {
+    setRef({ ...category, action: "category-edit" });
+    setModal(true);
   };
 
   const handleSelect = (category: ICategories) => {
@@ -100,7 +108,11 @@ export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
                   <FontAwesomeIcon icon={faTrashCan} />
                 </button>
 
-                <button type="button" title="Editar categoria">
+                <button
+                  type="button"
+                  title="Editar categoria"
+                  onClick={() => handleEditCategory(category)}
+                >
                   <FontAwesomeIcon icon={faPencil} />
                 </button>
               </div>

@@ -1,4 +1,4 @@
-import { Showcase } from "@/src/components/showcase";
+import { Showcase } from "@/src/layouts/showcase";
 
 interface IPageParams {
   params: Promise<{

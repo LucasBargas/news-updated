@@ -1,9 +1,11 @@
 import { Header } from "@/src/layouts/header";
 import type { Metadata } from "next";
 import { CategoriesProvider } from "../hooks/use-categories";
+import { ModalProvider } from "../hooks/use-modal";
 import { NewsProvider } from "../hooks/use-news";
 import { NewsOrderProvider } from "../hooks/use-news-order";
 import { Footer } from "../layouts/footer";
+import { Modal } from "../layouts/modal";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
@@ -18,11 +20,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <NewsProvider>
           <NewsOrderProvider>
             <CategoriesProvider>
-              <div className="app-area">
-                <Header />
-                <main>{children}</main>
-                <Footer />
-              </div>
+              <ModalProvider>
+                <div className="app-area">
+                  <Header />
+                  <main>{children}</main>
+                  <Footer />
+                  <Modal />
+                </div>
+              </ModalProvider>
             </CategoriesProvider>
           </NewsOrderProvider>
         </NewsProvider>
