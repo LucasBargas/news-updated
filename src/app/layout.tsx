@@ -1,5 +1,8 @@
 import { Header } from "@/src/layouts/header";
 import type { Metadata } from "next";
+import { CategoriesProvider } from "../hooks/use-categories";
+import { NewsProvider } from "../hooks/use-news";
+import { NewsOrderProvider } from "../hooks/use-news-order";
 import { Footer } from "../layouts/footer";
 import "../styles/globals.css";
 
@@ -12,11 +15,17 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="pt-br">
       <body>
-        <div className="app-area">
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </div>
+        <NewsProvider>
+          <NewsOrderProvider>
+            <CategoriesProvider>
+              <div className="app-area">
+                <Header />
+                <main>{children}</main>
+                <Footer />
+              </div>
+            </CategoriesProvider>
+          </NewsOrderProvider>
+        </NewsProvider>
       </body>
     </html>
   );
