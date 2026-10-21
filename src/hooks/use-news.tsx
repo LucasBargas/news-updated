@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useState,
-} from "react";
+import React from "react";
 import getNewsList, {
   OrderOption,
 } from "../actions/news-actions/get-news-list";
@@ -16,9 +8,9 @@ import type { INews } from "../types/news";
 
 interface NewsContextData {
   news: INews[] | null;
-  setNews: Dispatch<SetStateAction<INews[] | null>>;
+  setNews: React.Dispatch<React.SetStateAction<INews[] | null>>;
   isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   fetchNews: (
     param: string,
     order: OrderOption,
@@ -26,13 +18,13 @@ interface NewsContextData {
   ) => Promise<void>;
 }
 
-const NewsContext = createContext<NewsContextData | undefined>(undefined);
+const NewsContext = React.createContext<NewsContextData | undefined>(undefined);
 
-export const NewsProvider = ({ children }: { children: ReactNode }) => {
-  const [news, setNews] = useState<INews[] | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+export const NewsProvider = ({ children }: { children: React.ReactNode }) => {
+  const [news, setNews] = React.useState<INews[] | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const fetchNews = useCallback(
+  const fetchNews = React.useCallback(
     async (param: string, order: OrderOption, isFavoritePage: boolean) => {
       try {
         setIsLoading(true);
@@ -57,7 +49,7 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useNews = () => {
-  const context = useContext(NewsContext);
+  const context = React.useContext(NewsContext);
   if (!context) {
     throw new Error("useNews deve ser usado dentro de um NewsProvider");
   }

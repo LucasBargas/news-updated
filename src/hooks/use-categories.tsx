@@ -1,13 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React from "react";
 import getCategoriesList from "../actions/categories-actions/get-categories-list";
 
 interface ICategory {
@@ -22,16 +16,20 @@ interface CategoriesContextData {
   isLoading: boolean;
 }
 
-const CategoriesContext = createContext<CategoriesContextData | undefined>(
-  undefined,
-);
+const CategoriesContext = React.createContext<
+  CategoriesContextData | undefined
+>(undefined);
 
-export const CategoriesProvider = ({ children }: { children: ReactNode }) => {
-  const [categories, setCategories] = useState<ICategory[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export const CategoriesProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [categories, setCategories] = React.useState<ICategory[] | null>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
   const pathname = usePathname();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchCategories = async () => {
       try {
         setIsLoading(true);
@@ -57,7 +55,7 @@ export const CategoriesProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useCategories = () => {
-  const context = useContext(CategoriesContext);
+  const context = React.useContext(CategoriesContext);
 
   if (!context) {
     throw new Error(

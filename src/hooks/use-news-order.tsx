@@ -1,6 +1,5 @@
 "use client";
-
-import { createContext, ReactNode, useContext, useState } from "react";
+import React from "react";
 
 export type OrderOption = "recent" | "oldest" | "random";
 
@@ -9,12 +8,16 @@ interface NewsOrderContextData {
   setOrder: (order: OrderOption) => void;
 }
 
-const NewsOrderContext = createContext<NewsOrderContextData | undefined>(
+const NewsOrderContext = React.createContext<NewsOrderContextData | undefined>(
   undefined,
 );
 
-export const NewsOrderProvider = ({ children }: { children: ReactNode }) => {
-  const [order, setOrder] = useState<OrderOption>("random");
+export const NewsOrderProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [order, setOrder] = React.useState<OrderOption>("random");
 
   return (
     <NewsOrderContext.Provider value={{ order, setOrder }}>
@@ -24,7 +27,7 @@ export const NewsOrderProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useNewsOrder = () => {
-  const context = useContext(NewsOrderContext);
+  const context = React.useContext(NewsOrderContext);
 
   if (context === undefined) {
     throw new Error(
