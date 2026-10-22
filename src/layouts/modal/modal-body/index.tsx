@@ -1,3 +1,4 @@
+import { useModal } from "@/src/hooks/use-modal";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { MouseEvent as ReactMouseEvent, ReactNode } from "react";
@@ -10,6 +11,8 @@ interface ModalBodyProps {
 }
 
 export const ModalBody = (props: ModalBodyProps) => {
+  const { modalRef } = useModal();
+
   const handleCloseModal = (e: ReactMouseEvent<HTMLElement>) => {
     if (e.target === e.currentTarget) props.onClose();
   };
@@ -18,6 +21,7 @@ export const ModalBody = (props: ModalBodyProps) => {
     <section
       className={`${styles.modalWrapper} ${props.isOpen ? styles.active : ""}`}
       onClick={handleCloseModal}
+      ref={modalRef}
     >
       <div className={styles.modal}>
         <div className={styles.modalClose}>

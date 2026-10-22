@@ -1,4 +1,5 @@
 import { useCategories } from "@/src/hooks/use-categories";
+import { useModal } from "@/src/hooks/use-modal";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -27,6 +28,7 @@ export const FormsField = ({
   const { categories } = useCategories();
   const [showCategories, setShowCategories] = React.useState(false);
   const fieldRef = React.useRef<HTMLDivElement>(null);
+  const { modalRef } = useModal();
 
   const handleClick = () => {
     setShowCategories(!showCategories);
@@ -36,7 +38,11 @@ export const FormsField = ({
     if (!showCategories) return;
 
     const handleClickOutside = (e: MouseEvent) => {
-      if (fieldRef.current && !fieldRef.current.contains(e.target as Node))
+      if (
+        fieldRef.current &&
+        !modalRef?.current?.contains(e.target as Node) &&
+        !fieldRef.current.contains(e.target as Node)
+      )
         setShowCategories(false);
     };
 
@@ -49,7 +55,7 @@ export const FormsField = ({
       window.removeEventListener("click", handleClickOutside);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [showCategories]);
+  }, [modalRef, showCategories]);
 
   return (
     <React.Fragment>

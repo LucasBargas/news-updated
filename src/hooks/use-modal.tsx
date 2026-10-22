@@ -15,6 +15,7 @@ interface ModalContextData {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
   ref: ModalRef | null;
   setRef: React.Dispatch<React.SetStateAction<ModalRef | null>>;
+  modalRef?: React.RefObject<HTMLElement | null>;
 }
 
 const ModalContext = React.createContext<ModalContextData | undefined>(
@@ -24,9 +25,10 @@ const ModalContext = React.createContext<ModalContextData | undefined>(
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [modal, setModal] = React.useState(false);
   const [ref, setRef] = React.useState<ModalRef | null>(null);
+  const modalRef = React.useRef<HTMLElement>(null);
 
   return (
-    <ModalContext.Provider value={{ modal, setModal, ref, setRef }}>
+    <ModalContext.Provider value={{ modal, setModal, ref, setRef, modalRef }}>
       {children}
     </ModalContext.Provider>
   );
