@@ -8,10 +8,6 @@
   background: var(--secondary-color);
   z-index: 1000;
 
-  @media (max-width: 414px) {
-    height: 4rem;
-  }
-
   .headerContainer {
     display: flex;
     align-items: center;
@@ -57,15 +53,5 @@
         height: calc(100vh - 4rem);
       }
     }
-  }
-}
-
-@media (max-width: 414px) {
-  .header {
-    height: 4rem;
-  }
-
-  .headerRight.active {
-    height: calc(100vh - 4rem);
   }
 }

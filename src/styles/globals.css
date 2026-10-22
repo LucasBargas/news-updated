@@ -10,6 +10,14 @@
 
 html {
   font-size: 16px;
+
+  @media (max-width: 414px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 300px) {
+    font-size: 13px;
+  }
 }
 
 body {
@@ -57,30 +65,18 @@ svg {
   @media (max-width: 820px) {
     min-height: calc(100vh + 17rem);
   }
-}
 
-.app-area > main {
-  flex: 1;
-  padding: 9rem 0 4rem 0;
+  > main {
+    flex: 1;
+    padding: 9rem 0 4rem 0;
+
+    @media (max-width: 414px) {
+      padding-top: 8rem;
+    }
+  }
 }
 
 .container {
   width: min(100% - 2rem, 1160px);
   margin-inline: auto;
-}
-
-@media (max-width: 414px) {
-  html {
-    font-size: 14px;
-  }
-
-  .app-area > main {
-    padding-top: 6rem;
-  }
-}
-
-@media (max-width: 300px) {
-  html {
-    font-size: 13px;
-  }
 }

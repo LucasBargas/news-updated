@@ -2,26 +2,26 @@
   display: flex;
   align-items: center;
   position: relative;
-}
 
-.form input {
-  display: block;
-  min-width: 340px;
-  padding: 0.75rem 2.5rem 0.75rem 0.625rem;
-  border-radius: 6px;
-  height: 3rem;
-}
+  input {
+    display: block;
+    min-width: 340px;
+    padding: 0.75rem 2.5rem 0.75rem 0.625rem;
+    border-radius: 6px;
+    height: 3rem;
+  }
 
-.formActions {
-  display: flex;
-  gap: 0.25rem;
-  position: absolute;
-  right: 0.325rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  .formActions {
+    display: flex;
+    gap: 0.25rem;
+    position: absolute;
+    right: 0.325rem;
+    top: 50%;
+    transform: translateY(-50%);
 
-.formActions button {
-  background: transparent;
-  padding: 0.325rem;
+    button {
+      background: transparent;
+      padding: 0.325rem;
+    }
+  }
 }
