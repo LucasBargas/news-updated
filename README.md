@@ -18,16 +18,9 @@ alterações, incluindo o uso, nesta versão, do Supabase como base de dados.
 
 ### Tecnologias utilizadas
 
-<table>
-  <tr>
-    <td>Nextjs</td>
-    <td>Typescript</td>
-  </tr>
-  <tr>
-    <td>16</td>
-    <td>6^</td>
-  <tr>
-</table>
+- Nextjs
+- Typescript
+- Supabase
 
 ### Como executar este Front End
 
