@@ -1,4 +1,4 @@
-import { ICategories } from "@/src/types/categories";
+import { useCategories } from "@/src/hooks/use-categories";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -14,7 +14,6 @@ interface FormsCategoriesProps extends InputOrTextareaProps {
   label: string;
   errors?: FieldErrors;
   errorMessage?: string;
-  categoriesList: ICategories[] | null;
   as?: "input" | "textarea";
 }
 
@@ -22,10 +21,10 @@ export const FormsField = ({
   label,
   errors,
   errorMessage,
-  categoriesList,
   as = "input",
   ...props
 }: FormsCategoriesProps) => {
+  const { categories } = useCategories();
   const [showCategories, setShowCategories] = React.useState(false);
   const fieldRef = React.useRef<HTMLDivElement>(null);
 
@@ -78,7 +77,7 @@ export const FormsField = ({
           />
         )}
 
-        {props.name === "category" && (
+        {props.name === "category" && categories && categories.length > 0 && (
           <React.Fragment>
             <button
               type="button"
@@ -89,10 +88,7 @@ export const FormsField = ({
             </button>
 
             {showCategories && (
-              <FormsFieldCategories
-                categoriesList={categoriesList}
-                setShowCategories={setShowCategories}
-              />
+              <FormsFieldCategories setShowCategories={setShowCategories} />
             )}
           </React.Fragment>
         )}

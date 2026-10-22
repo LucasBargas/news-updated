@@ -5,7 +5,7 @@ import postNews from "@/src/actions/news-actions/post-news";
 import updateNews from "@/src/actions/news-actions/update-news";
 import { formConfig } from "@/src/helpers/form-config";
 import { normalizeCategory } from "@/src/helpers/normalize-category";
-import { ICategories } from "@/src/types/categories";
+import { useCategories } from "@/src/hooks/use-categories";
 import { INews } from "@/src/types/news";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,12 +18,8 @@ import { FormsFavorite } from "./forms-favorite";
 import { FormsField } from "./forms-field";
 import styles from "./styles.module.css";
 
-interface IFormsProps {
-  singleData?: INews;
-  categoriesList: ICategories[] | null;
-}
-
-export const Forms = ({ singleData, categoriesList }: IFormsProps) => {
+export const Forms = ({ singleData }: { singleData?: INews }) => {
+  const { categories: categoriesList } = useCategories();
   const [isFavorite, setIsFavorite] = React.useState(
     singleData?.isFavorite ?? false,
   );
@@ -92,7 +88,6 @@ export const Forms = ({ singleData, categoriesList }: IFormsProps) => {
             {formConfig.map((field) => (
               <FormsField
                 key={field.name}
-                categoriesList={categoriesList}
                 label={field.label}
                 placeholder={field.placeholder}
                 as={field.as}

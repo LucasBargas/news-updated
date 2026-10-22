@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { normalizeCategory } from "@/src/helpers/normalize-category";
 import type { NewsFormData } from "@/src/helpers/zod";
+import { useCategories } from "@/src/hooks/use-categories";
 import { useModal } from "@/src/hooks/use-modal";
 import type { ICategories } from "@/src/types/categories";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
@@ -11,46 +13,45 @@ import React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import styles from "./styles.module.css";
 
-interface FormsFieldCategoriesProps {
+export const FormsFieldCategories = ({
+  setShowCategories,
+}: {
   setShowCategories: React.Dispatch<React.SetStateAction<boolean>>;
-  categoriesList: ICategories[] | null;
-}
-
-export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
+}) => {
+  const { categories: categoriesList } = useCategories();
   const { control, setValue } = useFormContext<NewsFormData>();
-  const [categories, setCategories] = React.useState<ICategories[] | null>(
-    props.categoriesList ?? null,
-  );
   const { setRef, setModal } = useModal();
-
+  const [isSearching, setIsSearching] = React.useState(false);
   const selectedCategory = useWatch({
     control,
     name: "category",
   });
 
+  React.useEffect(() => {
+    setIsSearching(true);
+
+    const timer = setTimeout(() => {
+      setIsSearching(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [selectedCategory]);
+
   const search = normalizeCategory(selectedCategory ?? "");
 
   const matchingCategories =
-    categories?.filter((category) =>
+    categoriesList?.filter((category) =>
       normalizeCategory(category.title).includes(search),
     ) ?? [];
 
-  const visibleCategories = (
-    !categories || search.length < 3 || matchingCategories.length === 0
-      ? (categories ?? [])
-      : matchingCategories
-  ).filter((category) => category.title.trim().toLowerCase() !== "todas");
+  const visibleCategories =
+    !categoriesList || search.length < 3 || matchingCategories.length === 0
+      ? (categoriesList ?? [])
+      : matchingCategories;
 
   const handleDelete = async (category: ICategories) => {
-    // await deleteCategories(category);
     setRef({ ...category, action: "category-delete" });
     setModal(true);
-
-    setCategories((currentCategories) =>
-      currentCategories
-        ? currentCategories.filter((el) => el.id !== category.id)
-        : currentCategories,
-    );
   };
 
   const handleEditCategory = (category: ICategories) => {
@@ -64,61 +65,58 @@ export const FormsFieldCategories = (props: FormsFieldCategoriesProps) => {
       shouldDirty: true,
     });
 
-    props.setShowCategories(false);
+    setShowCategories(false);
   };
-
-  const isLoading = categories === null;
-  const isEmpty = categories !== null && categories.length === 0;
 
   return (
     <nav className={styles.formsCategoriesList}>
       <ul>
-        {isLoading && (
-          <li className={styles.formsCategoriesListEmpty}>
-            Carregando categorias...
-          </li>
+        {isSearching && (
+          <li className={styles.formsCategoriesListEmpty}>Carregando...</li>
         )}
 
-        {isEmpty && (
+        {!isSearching && visibleCategories?.length === 0 && (
           <li className={styles.formsCategoriesListEmpty}>
             Nenhuma categoria encontrada.
           </li>
         )}
 
-        {visibleCategories.map((category) => {
-          const isSelected =
-            normalizeCategory(selectedCategory ?? "") ===
-            normalizeCategory(category.title);
+        {!isSearching &&
+          visibleCategories.length > 0 &&
+          visibleCategories.map((category) => {
+            const isSelected =
+              normalizeCategory(selectedCategory ?? "") ===
+              normalizeCategory(category.title);
 
-          return (
-            <li key={category.id}>
-              <span
-                onClick={() => handleSelect(category)}
-                className={isSelected ? styles.active : ""}
-              >
-                {category.title}
-              </span>
-
-              <div className={styles.formsCategoriesListActions}>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(category)}
-                  title="Deletar categoria"
+            return (
+              <li key={category.id}>
+                <span
+                  onClick={() => handleSelect(category)}
+                  className={isSelected ? styles.active : ""}
                 >
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </button>
+                  {category.title}
+                </span>
 
-                <button
-                  type="button"
-                  title="Editar categoria"
-                  onClick={() => handleEditCategory(category)}
-                >
-                  <FontAwesomeIcon icon={faPencil} />
-                </button>
-              </div>
-            </li>
-          );
-        })}
+                <div className={styles.formsCategoriesListActions}>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(category)}
+                    title="Deletar categoria"
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+
+                  <button
+                    type="button"
+                    title="Editar categoria"
+                    onClick={() => handleEditCategory(category)}
+                  >
+                    <FontAwesomeIcon icon={faPencil} />
+                  </button>
+                </div>
+              </li>
+            );
+          })}
       </ul>
     </nav>
   );

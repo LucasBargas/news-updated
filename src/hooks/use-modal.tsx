@@ -22,7 +22,7 @@ const ModalContext = React.createContext<ModalContextData | undefined>(
 );
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [modal, setModal] = React.useState(false);
+  const [modal, setModal] = React.useState(true);
   const [ref, setRef] = React.useState<ModalRef | null>(null);
 
   return (

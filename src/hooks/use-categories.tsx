@@ -14,6 +14,7 @@ interface CategoriesContextData {
   categories: ICategory[] | null;
   setCategories: React.Dispatch<React.SetStateAction<ICategory[] | null>>;
   isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CategoriesContext = React.createContext<
@@ -47,7 +48,7 @@ export const CategoriesProvider = ({
 
   return (
     <CategoriesContext.Provider
-      value={{ categories, setCategories, isLoading }}
+      value={{ categories, setCategories, isLoading, setIsLoading }}
     >
       {children}
     </CategoriesContext.Provider>
