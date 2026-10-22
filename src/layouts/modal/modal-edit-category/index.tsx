@@ -40,7 +40,7 @@ export const ModalEditCategory = (props: {
         type="text"
         name="category"
         required
-        placeholder="Edite a categoria..."
+        placeholder="Edite a categoria"
       />
 
       <ModalActions onClose={props.onClose} />
