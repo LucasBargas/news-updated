@@ -1,0 +1,13 @@
+.modalEditCategoryForm {
+  input {
+    margin-top: 0.875rem;
+    border: 1px solid var(--secondary-color);
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    width: 80%;
+
+    &::placeholder {
+      font-size: 0.875rem;
+    }
+  }
+}

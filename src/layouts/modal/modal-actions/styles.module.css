@@ -1,0 +1,33 @@
+.modalActions {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 1.75rem 0;
+
+  button {
+    font-weight: 700;
+    color: var(--light-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: 0.3s;
+
+    &[type="submit"] {
+      background: tomato;
+      margin-right: 0.5rem;
+
+      &:hover {
+        background: rgb(224, 63, 35);
+      }
+    }
+
+    &[type="button"] {
+      background: var(--text-color);
+      margin-right: 0.5rem;
+      opacity: 0.8;
+      transition: 0.3s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
