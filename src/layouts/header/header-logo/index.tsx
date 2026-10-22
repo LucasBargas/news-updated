@@ -2,12 +2,12 @@ import Link from "next/link";
 import styles from "./styles.module.css";
 
 interface HeaderLogoProps {
-  handleClick?: () => void;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const HeaderLogo = ({ handleClick }: HeaderLogoProps) => {
+export const HeaderLogo = ({ setActive }: HeaderLogoProps) => {
   return (
-    <Link href="/" className={styles.logo} onClick={handleClick}>
+    <Link href="/" className={styles.logo} onClick={() => setActive(false)}>
       NewsLBS
     </Link>
   );

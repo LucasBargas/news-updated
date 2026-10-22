@@ -1,0 +1,10 @@
+.pageHeader {
+  padding-bottom: 1rem;
+  h1 {
+    font-size: 1.625rem;
+  }
+
+  p {
+    margin-top: 0.5rem;
+  }
+}

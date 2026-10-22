@@ -1,0 +1,74 @@
+.formsWrapper {
+  background: #fff;
+  max-width: 550px;
+  margin-inline: auto;
+  border-radius: 0.875rem;
+  box-shadow: var(--shadow);
+
+  .formsHeader {
+    border-bottom: 1px solid #f7f7f7;
+    padding: 2rem 2.5rem;
+    position: relative;
+
+    @media (max-width: 820px) {
+      padding: 1.875rem;
+    }
+
+    span {
+      display: block;
+      border-bottom: 4px solid #000;
+      width: 2.375rem;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+      margin-top: 0.75rem;
+      letter-spacing: 0.025rem;
+      word-spacing: 0.015rem;
+    }
+  }
+
+  .formsArea {
+    padding: 1.875rem 2.5rem 2.5rem 2.5rem;
+
+    @media (max-width: 820px) {
+      padding: 1.875rem;
+    }
+  }
+
+  .formsAreaButton {
+    display: flex;
+    justify-content: flex-end;
+    background: #eeeaea;
+    border-top: 1px solid var(--background-color);
+    border-bottom-left-radius: 0.875rem;
+    border-bottom-right-radius: 0.875rem;
+    padding: 1.125rem 2.5rem;
+    overflow: auto;
+
+    button {
+      display: flex;
+      align-items: center;
+      background: #3a3535;
+      color: var(--light-color);
+      font-size: 0.75rem;
+      padding: 0.875rem 1.5rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: 0.3s;
+
+      &:hover {
+        background: var(--text-color);
+      }
+
+      span {
+        margin-right: 0.75rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+.formsCategoriesList {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: #fff;
+  box-shadow: -2px 1px 23px -1px #2222225e;
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  max-height: 12rem;
+  height: auto;
+
+  ul {
+    padding: 0.5rem 0;
+
+    li {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &.formsCategoriesListEmpty {
+        padding: 0.75rem;
+      }
+
+      span {
+        flex: 1;
+        min-width: 0;
+        padding: 0.75rem;
+        transition: 0.2s;
+
+        &.active,
+        &:hover {
+          background: var(--background-color);
+        }
+      }
+
+      .formsCategoriesListActions {
+        display: flex;
+        gap: 0.25rem;
+        flex-shrink: 0;
+        position: absolute;
+        right: 0;
+        padding-right: 0.5rem;
+
+        button {
+          background: transparent;
+          padding: 0.5rem 0 0.5rem 0.75rem;
+        }
+      }
+    }
+  }
+}

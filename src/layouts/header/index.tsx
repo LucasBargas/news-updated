@@ -19,7 +19,7 @@ export const Header = () => {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.headerContainer}`}>
-        <HeaderLogo handleClick={handleClick} />
+        <HeaderLogo setActive={setActive} />
 
         <div className={`${styles.headerRight} ${active ? styles.active : ""}`}>
           <HeaderNav handleClick={handleClick} />

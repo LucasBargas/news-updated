@@ -1,7 +1,10 @@
+import getNewsList from "@/src/actions/news-actions/get-news-list";
+import { INews } from "@/src/types/news";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import React, { useRef } from "react";
+import { HeaderSearchPreview } from "./header-search-preview";
 import styles from "./styles.module.css";
 
 interface HeaderSearchProps {
@@ -12,10 +15,15 @@ interface HeaderSearchProps {
 
 export const HeaderSearch = (props: HeaderSearchProps) => {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [news, setNews] = React.useState<null | INews[]>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const clearInput = () => {
     props.setValue("");
+    setIsOpen(false);
     inputRef.current?.focus();
   };
 
@@ -28,26 +36,67 @@ export const HeaderSearch = (props: HeaderSearchProps) => {
       return;
     }
 
-    router.push(`pesquisa?q=${search}`);
+    setIsOpen(false);
+    router.push(`/pesquisa?q=${search}`);
     clearInput();
     props.handleClick();
   };
 
   React.useEffect(() => {
-    if (!props.value) return;
+    const fetchNews = async () => {
+      if (props.value.trim().length < 2) {
+        setNews(null);
+        setIsLoading(false);
+        return;
+      }
 
-    console.log(props.value);
+      setIsLoading(true);
+      setIsOpen(true);
+
+      try {
+        const data = await getNewsList(props.value);
+        setNews(data);
+      } catch (error) {
+        console.error("Erro ao buscar:", error);
+        setNews([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const timer = setTimeout(() => {
+      fetchNews();
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [props]);
 
+  React.useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (formRef.current && !formRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit} ref={formRef}>
       <input
         ref={inputRef}
         type="text"
         placeholder="Pesquise por uma notícia"
         name="search"
         value={props.value}
-        onChange={(e) => props.setValue(e.target.value)}
+        onChange={(e) => {
+          props.setValue(e.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => {
+          if (props.value.trim().length > 2) setIsOpen(true);
+        }}
       />
       <div className={styles.formActions}>
         {props.value.length > 2 && (
@@ -60,6 +109,15 @@ export const HeaderSearch = (props: HeaderSearchProps) => {
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
       </div>
+
+      {isOpen && props.value.length > 2 && (
+        <HeaderSearchPreview
+          news={news}
+          isLoading={isLoading}
+          value={props.value}
+          handleClick={props.handleClick}
+        />
+      )}
     </form>
   );
 };

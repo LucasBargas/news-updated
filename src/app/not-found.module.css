@@ -1,0 +1,75 @@
+.notFoundArea {
+  display: flex;
+  background: white;
+  max-width: 900px;
+  margin-inline: auto;
+  margin-top: 2rem;
+  border-radius: 1.5rem;
+  overflow: auto;
+
+  @media (max-width: 780px) {
+    display: block;
+  }
+
+  .notFoundAreaLeft {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    background: #eeeaea;
+    max-height: auto;
+
+    h1 {
+      font-size: 7.5rem;
+      padding: 4rem;
+    }
+  }
+
+  .notFoundAreaRight {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    gap: 1.25rem;
+
+    > span {
+      display: block;
+      border-bottom: 4px solid #000;
+      width: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    strong {
+      text-transform: uppercase;
+      font-size: 0.9325rem;
+    }
+
+    strong,
+    p {
+      word-spacing: 0.25rem;
+    }
+
+    h3 {
+      font-size: 2rem;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      align-self: self-start;
+      background: #3a3535;
+      color: var(--light-color);
+      font-size: 0.75rem;
+      margin-top: 0.875rem;
+      padding: 0.875rem 1.5rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: 0.3s;
+      gap: 1rem;
+
+      &:hover {
+        background: var(--text-color);
+      }
+    }
+  }
+}

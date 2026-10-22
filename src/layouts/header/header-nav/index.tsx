@@ -14,9 +14,9 @@ export const HeaderNav = ({ handleClick }: HeaderNavProps) => {
       <ul>
         <li>
           <Link
-            href="/"
+            href="/home"
             onClick={handleClick}
-            className={pathname === "/" ? styles.active : ""}
+            className={pathname.startsWith("/home") ? styles.active : ""}
           >
             Home
           </Link>
@@ -25,7 +25,9 @@ export const HeaderNav = ({ handleClick }: HeaderNavProps) => {
           <Link
             href="/noticias-favoritas"
             onClick={handleClick}
-            className={pathname === "/noticias-favoritas" ? styles.active : ""}
+            className={
+              pathname.startsWith("/noticias-favoritas") ? styles.active : ""
+            }
           >
             Notícias favoritas
           </Link>
@@ -34,7 +36,9 @@ export const HeaderNav = ({ handleClick }: HeaderNavProps) => {
           <Link
             href="/cadastrar-noticia"
             onClick={handleClick}
-            className={pathname === "/cadastrar-noticia" ? styles.active : ""}
+            className={
+              pathname.startsWith("/cadastrar-noticia") ? styles.active : ""
+            }
           >
             Cadastrar notícia
           </Link>

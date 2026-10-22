@@ -1,0 +1,55 @@
+.label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem 0;
+  letter-spacing: 0.05rem;
+}
+
+.formsField {
+  margin-bottom: 0.25rem;
+
+  &.isRelative {
+    position: relative;
+  }
+
+  input,
+  textarea {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--background-color);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    font-family: var(--font-family);
+    resize: none;
+
+    &::placeholder {
+      font-family: var(--font-family);
+      font-size: 0.875rem;
+    }
+  }
+
+  input {
+    height: 2.75rem;
+  }
+
+  .formsFieldChevron {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    padding: 0.5rem;
+
+    svg {
+      transition: transform 0.3s ease;
+    }
+
+    &.active {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

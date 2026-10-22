@@ -1,0 +1,76 @@
+.orderControl {
+  display: flex;
+  padding-bottom: 1.5rem;
+  position: relative;
+  opacity: 0;
+  pointer-events: none;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  span {
+    cursor: pointer;
+    padding: 0.5rem 0;
+    user-select: none;
+  }
+
+  .chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .chevronOpen {
+    transform: rotate(180deg);
+  }
+
+  nav {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 1.75rem;
+    background: white;
+    box-shadow: -2px 1px 23px -1px #2222225e;
+    border-radius: 0.5rem;
+    max-width: 174px;
+    min-width: 174px;
+    transition: opacity 0.2s ease;
+
+    @media (max-width: 780px) {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2000;
+      max-width: none;
+      min-width: none;
+      width: 95%;
+    }
+
+    &.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    li {
+      cursor: pointer;
+      padding: 0.75rem;
+      user-select: none;
+      font-size: 0.875rem;
+
+      @media (max-width: 780px) {
+        padding: 1.25rem 0.75rem;
+      }
+
+      &:not(:last-of-type) {
+        border-bottom: 1px solid #c0c0c0;
+      }
+
+      &.active {
+        font-weight: 700;
+        pointer-events: none;
+      }
+    }
+  }
+}

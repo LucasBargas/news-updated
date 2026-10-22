@@ -1,0 +1,7 @@
+.showcase {
+  padding-left: 2rem;
+
+  @media (max-width: 1030px) {
+    padding: 2rem 0 0 0;
+  }
+}

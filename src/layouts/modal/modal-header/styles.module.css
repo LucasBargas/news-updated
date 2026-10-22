@@ -1,0 +1,10 @@
+.modalHeaderTitle {
+  margin-inline: auto;
+  font-size: 1.375rem;
+  width: 90%;
+}
+
+.modalHeaderDescription {
+  margin-top: 0.5rem;
+  font-size: 0.9325rem;
+}

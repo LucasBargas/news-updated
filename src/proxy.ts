@@ -1,23 +1,21 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(request: NextRequest) {
+export const proxy = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
-  const newPath = pathname.replace(
-    /^\/(cadastrar-noticia|noticias-favoritas)\/.+/,
-    '/$1',
-  );
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
+
+  const newPath = pathname.replace(/^\/(cadastrar-noticia)\/.+/, "/$1");
 
   if (newPath !== pathname) {
     return NextResponse.redirect(new URL(newPath, request.url));
   }
 
   return NextResponse.next();
-}
+};
 
 export const config = {
-  matcher: [
-    '/cadastrar-noticia/:path*',
-    '/noticias-favoritas/:path*',
-  ],
+  matcher: ["/", "/cadastrar-noticia/:path*"],
 };

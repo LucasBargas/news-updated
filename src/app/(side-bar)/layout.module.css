@@ -1,0 +1,35 @@
+.defaultPage {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  @media (max-width: 1030px) {
+    display: block;
+  }
+}
+
+.headerArea {
+  grid-column: 1 / 5;
+  grid-row: 1 / 2;
+}
+
+.orderArea {
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 1 / 5;
+  grid-row: 2 / 3;
+}
+
+.sidebarArea {
+  grid-row: 3 / 4;
+  grid-column: 1 / 2;
+}
+
+.mainArea {
+  grid-row: 3 / 4;
+  grid-column: 2 / 5;
+}
+
+.mainAreaFull {
+  grid-row: 3 / 4;
+  grid-column: 1 / 5;
+}
