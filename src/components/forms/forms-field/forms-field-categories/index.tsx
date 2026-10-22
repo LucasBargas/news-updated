@@ -9,6 +9,7 @@ import type { ICategories } from "@/src/types/categories";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import styles from "./styles.module.css";
@@ -22,6 +23,7 @@ export const FormsFieldCategories = ({
   const { control, setValue } = useFormContext<NewsFormData>();
   const { setRef, setModal } = useModal();
   const [isSearching, setIsSearching] = React.useState(false);
+  const pathname = usePathname();
   const selectedCategory = useWatch({
     control,
     name: "category",
@@ -97,23 +99,25 @@ export const FormsFieldCategories = ({
                   {category.title}
                 </span>
 
-                <div className={styles.formsCategoriesListActions}>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(category)}
-                    title="Deletar categoria"
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
+                {pathname.startsWith("/editar-noticia") && (
+                  <div className={styles.formsCategoriesListActions}>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(category)}
+                      title="Deletar categoria"
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
 
-                  <button
-                    type="button"
-                    title="Editar categoria"
-                    onClick={() => handleEditCategory(category)}
-                  >
-                    <FontAwesomeIcon icon={faPencil} />
-                  </button>
-                </div>
+                    <button
+                      type="button"
+                      title="Editar categoria"
+                      onClick={() => handleEditCategory(category)}
+                    >
+                      <FontAwesomeIcon icon={faPencil} />
+                    </button>
+                  </div>
+                )}
               </li>
             );
           })}
