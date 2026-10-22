@@ -10,6 +10,10 @@
   padding: 0.675rem 0;
   border-radius: 0.25rem;
 
+  @media (max-width: 480px) {
+    max-height: 13rem;
+  }
+
   ul {
     display: flex;
     flex-direction: column;
@@ -19,6 +23,10 @@
     display: block;
     color: var(--text-color);
     padding: 0.5rem 1rem;
+
+    @media (max-width: 480px) {
+      font-size: 1.25rem;
+    }
   }
 
   .noPreview {

@@ -26,6 +26,10 @@
           padding: 1.25rem 1rem;
         }
 
+        @media (max-width: 480px) {
+          font-size: 1.25rem;
+        }
+
         &.active {
           background-color: var(--primary-color);
           color: #fff;
