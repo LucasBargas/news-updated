@@ -1,5 +1,6 @@
 "use server";
 
+import { keys } from "@/src/helpers/keys";
 import { INews } from "../../types/news";
 
 export type OrderOption = "recent" | "oldest" | "random";
@@ -9,20 +10,16 @@ const getNewsList = async (
   orderBy: OrderOption = "recent",
   favoritesOnly: boolean = false,
 ) => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const { supabaseUrl, supabaseKey } = keys;
 
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseUrl || !supabaseKey)
     throw new Error(
       "As variáveis de ambiente do Supabase não estão configuradas.",
     );
-  }
 
   let endpoint = `${supabaseUrl}/rest/v1/news?select=*`;
 
-  if (favoritesOnly) {
-    endpoint += "&isFavorite=eq.true";
-  }
+  if (favoritesOnly) endpoint += "&isFavorite=eq.true";
 
   if (searchTerm) {
     const trimmedTerm = searchTerm.trim();
@@ -38,11 +35,8 @@ const getNewsList = async (
     endpoint += `&or=(${conditions})`;
   }
 
-  if (orderBy === "recent") {
-    endpoint += "&order=created_at.desc";
-  } else if (orderBy === "oldest") {
-    endpoint += "&order=created_at.asc";
-  }
+  if (orderBy === "recent") endpoint += "&order=created_at.desc";
+  else if (orderBy === "oldest") endpoint += "&order=created_at.asc";
 
   try {
     const res = await fetch(endpoint, {
@@ -55,15 +49,11 @@ const getNewsList = async (
       },
     });
 
-    if (!res.ok) {
-      throw new Error(`Erro ao buscar notícias: ${res.statusText}`);
-    }
+    if (!res.ok) throw new Error(`Erro ao buscar notícias: ${res.statusText}`);
 
     let data = (await res.json()) as INews[];
 
-    if (orderBy === "random") {
-      data = data.sort(() => Math.random() - 0.5);
-    }
+    if (orderBy === "random") data = data.sort(() => Math.random() - 0.5);
 
     return data;
   } catch (error) {

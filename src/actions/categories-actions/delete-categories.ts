@@ -1,19 +1,18 @@
 "use server";
 
+import { keys } from "@/src/helpers/keys";
 import { ICategories } from "@/src/types/categories";
 import { revalidatePath } from "next/cache";
 import deleteNews from "../news-actions/delete-news";
 import getNewsList from "../news-actions/get-news-list";
 
 const deleteCategories = async (category: ICategories) => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const { supabaseUrl, supabaseKey } = keys;
 
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseUrl || !supabaseKey)
     throw new Error(
       "As variáveis de ambiente do Supabase não estão configuradas.",
     );
-  }
 
   const endpoint = `${supabaseUrl}/rest/v1/categories?id=eq.${category.id}`;
 

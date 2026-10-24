@@ -1,16 +1,15 @@
 "use server";
 
+import { keys } from "@/src/helpers/keys";
 import { INews } from "../../types/news";
 
 const getNewsId = async (id: number | string): Promise<INews | null> => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const { supabaseUrl, supabaseKey } = keys;
 
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseUrl || !supabaseKey)
     throw new Error(
       "As variáveis de ambiente do Supabase não estão configuradas.",
     );
-  }
 
   const endpoint = `${supabaseUrl}/rest/v1/news?select=*&id=eq.${id}`;
 
@@ -25,9 +24,7 @@ const getNewsId = async (id: number | string): Promise<INews | null> => {
       },
     });
 
-    if (!res.ok) {
-      throw new Error(`Erro ao buscar a notícia: ${res.statusText}`);
-    }
+    if (!res.ok) throw new Error(`Erro ao buscar a notícia: ${res.statusText}`);
 
     const data = (await res.json()) as INews[];
     return data[0];

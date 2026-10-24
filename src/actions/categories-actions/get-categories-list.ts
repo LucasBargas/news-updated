@@ -1,16 +1,15 @@
 "use server";
 
+import { keys } from "@/src/helpers/keys";
 import { ICategories } from "../../types/categories";
 
 const getCategoriesList = async () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const { supabaseUrl, supabaseKey } = keys;
 
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseUrl || !supabaseKey)
     throw new Error(
       "As variáveis de ambiente do Supabase não estão configuradas.",
     );
-  }
 
   const endpoint = `${supabaseUrl}/rest/v1/categories?select=*&order=created_at.desc`;
 
@@ -25,9 +24,8 @@ const getCategoriesList = async () => {
       },
     });
 
-    if (!res.ok) {
+    if (!res.ok)
       throw new Error(`Erro ao buscar categorias: ${res.statusText}`);
-    }
 
     const data = (await res.json()) as ICategories[];
 

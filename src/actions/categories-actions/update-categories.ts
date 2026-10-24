@@ -1,13 +1,13 @@
 "use server";
 
 import { createSlug } from "@/src/helpers/create-slug";
+import { keys } from "@/src/helpers/keys";
 import getNewsList from "../news-actions/get-news-list";
 import updateNews from "../news-actions/update-news";
 import getCategoriesList from "./get-categories-list";
 
 const updateCategories = async (id: string, newTitle: string) => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const { supabaseUrl, supabaseKey } = keys;
 
   if (!supabaseUrl || !supabaseKey)
     throw new Error(

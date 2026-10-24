@@ -1,5 +1,6 @@
 "use server";
 
+import { keys } from "@/src/helpers/keys";
 import { revalidatePath } from "next/cache";
 import { INews } from "../../types/news";
 
@@ -7,14 +8,12 @@ const updateNews = async (
   id: number | string,
   updatedData: INews,
 ): Promise<INews | null> => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const { supabaseUrl, supabaseKey } = keys;
 
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseUrl || !supabaseKey)
     throw new Error(
       "As variáveis de ambiente do Supabase não estão configuradas.",
     );
-  }
 
   const endpoint = `${supabaseUrl}/rest/v1/news?id=eq.${id}`;
 
@@ -31,16 +30,13 @@ const updateNews = async (
       body: JSON.stringify(updatedData),
     });
 
-    if (!res.ok) {
+    if (!res.ok)
       throw new Error(`Erro ao atualizar a notícia: ${res.statusText}`);
-    }
 
     const data = (await res.json()) as INews[];
     const updatedNews = data[0];
 
-    if (!updatedNews) {
-      return null;
-    }
+    if (!updatedNews) return null;
 
     revalidatePath(`/noticia/${id}`);
     revalidatePath(`/editar-noticia/${id}`);

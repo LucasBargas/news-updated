@@ -1,5 +1,6 @@
 "use server";
 
+import { keys } from "@/src/helpers/keys";
 import { INews } from "@/src/types/news";
 import { revalidatePath } from "next/cache";
 import deleteCategories from "../categories-actions/delete-categories";
@@ -7,18 +8,14 @@ import getCategoriesList from "../categories-actions/get-categories-list";
 import getNewsList from "./get-news-list";
 
 const deleteNews = async (news: INews) => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const { supabaseUrl, supabaseKey } = keys;
 
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseUrl || !supabaseKey)
     throw new Error(
       "As variáveis de ambiente do Supabase não estão configuradas.",
     );
-  }
 
-  if (!news.id) {
-    throw new Error("ID da notícia não informado.");
-  }
+  if (!news.id) throw new Error("ID da notícia não informado.");
 
   const endpoint = `${supabaseUrl}/rest/v1/news?id=eq.${news.id}`;
 
