@@ -1,13 +1,14 @@
+import { Button } from "@/src/components/button";
 import styles from "./styles.module.css";
 
 export const ModalActions = ({ onClose }: { onClose: () => void }) => {
   return (
     <div className={styles.modalActions}>
-      <button type="submit">Confirmar</button>
+      <Button type="submit">Confirmar</Button>
 
-      <button type="button" onClick={onClose}>
+      <Button type="button" onClick={onClose} color="redButton">
         Cancelar
-      </button>
+      </Button>
     </div>
   );
 };

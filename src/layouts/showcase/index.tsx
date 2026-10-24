@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
+import { Button } from "@/src/components/button";
 import { LoadingSpinner } from "@/src/components/loading-spinner";
 import { ShorterArticle } from "@/src/components/shorter-article";
 import { useModal } from "@/src/hooks/use-modal";
@@ -57,12 +58,14 @@ export const Showcase = ({ param }: IShowcaseProps) => {
           ))}
 
           {news && visibleCount < news.length && (
-            <button
-              className={styles.loadMoreBtn}
+            <Button
               onClick={() => setVisibleCount((prev) => prev + 6)}
+              style={{
+                marginInline: "auto",
+              }}
             >
               Carregar mais
-            </button>
+            </Button>
           )}
         </React.Fragment>
       )}

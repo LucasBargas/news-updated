@@ -7,23 +7,22 @@ import { formConfig } from "@/src/helpers/form-config";
 import { normalizeCategory } from "@/src/helpers/normalize-category";
 import { useCategories } from "@/src/hooks/use-categories";
 import { INews } from "@/src/types/news";
-import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { newsFormSchema, type NewsFormData } from "../../helpers/zod";
+import { Button } from "../button";
 import { FormsFavorite } from "./forms-favorite";
 import { FormsField } from "./forms-field";
 import styles from "./styles.module.css";
 
 export const Forms = ({ singleData }: { singleData?: INews }) => {
+  const router = useRouter();
   const { categories: categoriesList } = useCategories();
   const [isFavorite, setIsFavorite] = React.useState(
     singleData?.isFavorite ?? false,
   );
-  const router = useRouter();
 
   const methods = useForm<NewsFormData>({
     resolver: zodResolver(newsFormSchema),
@@ -100,10 +99,9 @@ export const Forms = ({ singleData }: { singleData?: INews }) => {
           </div>
 
           <div className={styles.formsAreaButton}>
-            <button type="submit">
+            <Button type="submit" formButton>
               <span>{singleData ? "Atualizar" : "Cadastrar"}</span>
-              <FontAwesomeIcon icon={faArrowRightLong} />
-            </button>
+            </Button>
           </div>
         </form>
       </FormProvider>

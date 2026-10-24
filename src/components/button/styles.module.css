@@ -1,0 +1,23 @@
+.button {
+  display: block;
+  color: var(--light-color);
+  font-size: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: 0.3s;
+  letter-spacing: 0.0625rem;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &.darkButton {
+    background: var(--text-color);
+  }
+
+  &.redButton {
+    background: tomato;
+  }
+}

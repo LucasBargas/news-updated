@@ -4,20 +4,4 @@
   @media (max-width: 1030px) {
     padding: 2rem 0 0 0;
   }
-
-  .loadMoreBtn {
-    display: block;
-    margin-inline: auto;
-    margin-top: 1rem;
-    background: var(--text-color);
-    opacity: 0.8;
-    font-weight: 700;
-    color: var(--light-color);
-    padding: 0.75rem 0.75rem;
-    border-radius: 8px;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
 }

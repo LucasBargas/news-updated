@@ -50,25 +50,5 @@
     border-bottom-right-radius: 0.875rem;
     padding: 1.125rem 2.5rem;
     overflow: auto;
-
-    button {
-      display: flex;
-      align-items: center;
-      background: #3a3535;
-      color: var(--light-color);
-      font-size: 0.75rem;
-      padding: 0.875rem 1.5rem;
-      font-weight: 600;
-      border-radius: 0.5rem;
-      transition: 0.3s;
-
-      &:hover {
-        background: var(--text-color);
-      }
-
-      span {
-        margin-right: 0.75rem;
-      }
-    }
   }
 }
