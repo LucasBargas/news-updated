@@ -1,7 +1,7 @@
 .button {
   display: block;
   color: var(--light-color);
-  font-size: 0.75rem;
+  font-size: 1rem;
   padding: 0.875rem 1.5rem;
   font-weight: 700;
   border-radius: 0.5rem;
