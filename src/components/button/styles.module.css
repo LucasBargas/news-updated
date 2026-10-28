@@ -1,7 +1,8 @@
 .button {
-  display: block;
+  display: flex;
+  gap: .5rem;
   color: var(--light-color);
-  font-size: 1rem;
+  font-size: .875rem;
   padding: 0.875rem 1.5rem;
   font-weight: 700;
   border-radius: 0.5rem;
