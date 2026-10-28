@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { Button } from "@/src/components/button";
@@ -24,6 +23,7 @@ export const Showcase = ({ param }: IShowcaseProps) => {
   const isFavoritePage = pathname.startsWith("/noticias-favoritas");
   const { order } = useNewsOrder();
   const { setRef, setModal } = useModal();
+  const [pageSize, setPageSize] = useState(6);
   const [visibleCount, setVisibleCount] = useState(6);
 
   const handleDeleteNews = async (newsToDelete: INews) => {
@@ -32,8 +32,22 @@ export const Showcase = ({ param }: IShowcaseProps) => {
   };
 
   React.useEffect(() => {
+    const updatePageSize = () => {
+      const nextPageSize = window.matchMedia("(max-width: 480px)").matches
+        ? 4
+        : 6;
+
+      setPageSize(nextPageSize);
+      setVisibleCount(nextPageSize);
+    };
+
+    updatePageSize();
+    window.addEventListener("resize", updatePageSize);
+    return () => window.removeEventListener("resize", updatePageSize);
+  }, []);
+
+  React.useEffect(() => {
     fetchNews(param ?? "", order, isFavoritePage);
-    setVisibleCount(6);
   }, [fetchNews, isFavoritePage, order, param]);
 
   const displayedNews = news?.slice(0, visibleCount);
@@ -59,10 +73,8 @@ export const Showcase = ({ param }: IShowcaseProps) => {
 
           {news && visibleCount < news.length && (
             <Button
-              onClick={() => setVisibleCount((prev) => prev + 6)}
-              style={{
-                marginInline: "auto",
-              }}
+              onClick={() => setVisibleCount((prev) => prev + pageSize)}
+              style={{ marginInline: "auto" }}
             >
               Carregar mais
             </Button>
