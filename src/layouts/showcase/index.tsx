@@ -32,18 +32,22 @@ export const Showcase = ({ param }: IShowcaseProps) => {
   };
 
   React.useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 480px)");
+
     const updatePageSize = () => {
-      const nextPageSize = window.matchMedia("(max-width: 480px)").matches
-        ? 4
-        : 6;
+      const nextPageSize = mediaQuery.matches ? 4 : 6;
 
       setPageSize(nextPageSize);
       setVisibleCount(nextPageSize);
     };
 
     updatePageSize();
-    window.addEventListener("resize", updatePageSize);
-    return () => window.removeEventListener("resize", updatePageSize);
+
+    mediaQuery.addEventListener("change", updatePageSize);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updatePageSize);
+    };
   }, []);
 
   React.useEffect(() => {
